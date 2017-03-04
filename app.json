@@ -1,0 +1,8 @@
+{
+  "name": "Kodaly Song Database",
+  "description": "A web application to store and search songs for use by Kodaly teachers",
+  "image": "heroku/ruby",
+  "addons": [
+    "heroku-postgresql"
+  ]
+}
