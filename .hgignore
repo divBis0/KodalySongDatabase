@@ -1,0 +1,12 @@
+# use glob syntax.
+syntax: glob
+
+# Ignore bundler config.
+.bundle
+
+# Ignore all logfiles and tempfiles.
+log/**
+tmp/**
+
+# Ignore Byebug command history file.
+.byebug_history
