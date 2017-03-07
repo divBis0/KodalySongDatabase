@@ -1,6 +1,6 @@
 web:
   volumes:
-    - '.:/app/tmpwd'
+    - '.:/app/user'
   environment:
     RAILS_ENV: "${RAILS_ENV}"
 
