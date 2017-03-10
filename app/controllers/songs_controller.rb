@@ -1,10 +1,10 @@
 class SongsController < ApplicationController
   before_action :set_song, only: [:show, :edit, :update, :destroy]
-
+  before_action :authenticate_user!
   # GET /songs
   # GET /songs.json
   def index
-    @songs = Song.all
+    @songs = current_user.songs.all
   end
 
   # GET /songs/1
@@ -14,7 +14,7 @@ class SongsController < ApplicationController
 
   # GET /songs/new
   def new
-    @song = Song.new
+    @song = current_user.songs.new
   end
 
   # GET /songs/1/edit
@@ -24,11 +24,11 @@ class SongsController < ApplicationController
   # POST /songs
   # POST /songs.json
   def create
-    @song = Song.new(song_params)
+    @song = current_user.songs.new(song_params)
 
     respond_to do |format|
       if @song.save
-        format.html { redirect_to @song, notice: 'Song was successfully created.' }
+        format.html { redirect_to @song, notice: 'current_user.songs was successfully created.' }
         format.json { render :show, status: :created, location: @song }
       else
         format.html { render :new }
@@ -42,7 +42,7 @@ class SongsController < ApplicationController
   def update
     respond_to do |format|
       if @song.update(song_params)
-        format.html { redirect_to @song, notice: 'Song was successfully updated.' }
+        format.html { redirect_to @song, notice: 'current_user.songs was successfully updated.' }
         format.json { render :show, status: :ok, location: @song }
       else
         format.html { render :edit }
@@ -56,7 +56,7 @@ class SongsController < ApplicationController
   def destroy
     @song.destroy
     respond_to do |format|
-      format.html { redirect_to songs_url, notice: 'Song was successfully destroyed.' }
+      format.html { redirect_to songs_url, notice: 'current_user.songs was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
@@ -64,7 +64,10 @@ class SongsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_song
-      @song = Song.find(params[:id])
+      unless @song = current_user.songs.where(id: params[:id]).first
+        flash[:alert] = 'Song not found.'
+        redirect_to root_url
+      end
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
