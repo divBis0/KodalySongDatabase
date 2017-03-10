@@ -6,4 +6,6 @@ class Song < ApplicationRecord
   
   # ensure that title is present
   validates :title, presence: true
+  
+  paginates_per 25
 end

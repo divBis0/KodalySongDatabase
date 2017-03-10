@@ -39,6 +39,9 @@ gem 'devise', '~> 4.2.0'
 gem 'foundation-rails', '~> 6.3.0'
 gem 'simple_form', '~> 3.4.0'
 
+# Use kaminari for pagination
+gem 'kaminari'
+
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
