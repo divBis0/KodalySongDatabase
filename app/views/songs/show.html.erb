@@ -7,7 +7,21 @@
 
 <p>
   <strong>Data:</strong>
-  <%= @song.data %>
+  <table>
+    <thead>
+      <th>Key</th>
+      <th>Value</th>
+    </thead>
+    <tbody>
+      <% @song.data.each do |key, value| %>
+        <tr>
+          <td><%= key %></td>
+          <td><%= value %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <%#= @song.data %>
 </p>
 
 <p>
