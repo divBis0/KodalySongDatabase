@@ -1,16 +1,27 @@
-<h2>Latest Songs</h2>
-<table style="width: 100%">
-  <thead>
-    <tr>
-      <th>Title</th>
-    </tr>
-  </thead>
+<% if current_user %>
+  <h2>Latest Songs</h2>
+  <table style="width: 100%">
+    <thead>
+      <tr>
+        <th>Title</th>
+      </tr>
+    </thead>
 
-  <tbody>
-  <% @songs.each do |song| %>
-    <tr>
-      <td><%= link_to song.title, song %></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+    <tbody>
+      <% @songs.each do |song| %>
+        <tr>
+          <td><%= link_to song.title, song %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <%#= paginate @songs %>
+
+<% else %>
+  <div class="panel">
+    <h1>Keep track of your songs!</h1>
+    <p>A simple app to store, analyze and search your songs.</p>
+    <%= link_to "Get started today", new_user_registration_path, :class => "button button-large" %>
+  </div>
+<% end %>
