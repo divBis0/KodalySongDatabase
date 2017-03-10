@@ -1,0 +1,16 @@
+<h2>Latest Songs</h2>
+<table style="width: 100%">
+  <thead>
+    <tr>
+      <th>Title</th>
+    </tr>
+  </thead>
+
+  <tbody>
+  <% @songs.each do |song| %>
+    <tr>
+      <td><%= link_to song.title, song %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
