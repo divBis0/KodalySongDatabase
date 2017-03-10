@@ -4,6 +4,7 @@
     <thead>
       <tr>
         <th>Title</th>
+        <th>Last Modified</th>
       </tr>
     </thead>
 
@@ -11,6 +12,7 @@
       <% @songs.each do |song| %>
         <tr>
           <td><%= link_to song.title, song %></td>
+          <td><%= song.updated_at %></td>
         </tr>
       <% end %>
     </tbody>

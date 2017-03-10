@@ -6,8 +6,8 @@
   <thead>
     <tr>
       <th>Title</th>
-      <th>Data</th>
       <th>Comments</th>
+      <th>Last Modified</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -16,8 +16,8 @@
     <% @songs.each do |song| %>
       <tr>
         <td><%= song.title %></td>
-        <td><%= song.data %></td>
         <td><%= song.comments %></td>
+        <td><%= song.updated_at %></td>
         <td><%= link_to 'Show', song %></td>
         <td><%= link_to 'Edit', edit_song_path(song) %></td>
         <td><%= link_to 'Destroy', song, method: :delete, data: { confirm: 'Are you sure?' } %></td>
