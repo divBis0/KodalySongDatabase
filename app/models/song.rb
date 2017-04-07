@@ -1,5 +1,6 @@
 class Song < ApplicationRecord
   belongs_to :user
+  has_many :fields
   
   # ensure that a user_id is present
   validates :user_id, presence: true

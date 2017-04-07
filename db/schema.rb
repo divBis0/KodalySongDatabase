@@ -10,20 +10,37 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170310162430) do
+ActiveRecord::Schema.define(version: 20170407220700) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
 
+  create_table "field_categories", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "order"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "fields", force: :cascade do |t|
+    t.string   "name"
+    t.integer  "display_type"
+    t.integer  "field_category_id"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+    t.integer  "song_id"
+    t.string   "data"
+    t.index ["field_category_id"], name: "index_fields_on_field_category_id", using: :btree
+    t.index ["song_id"], name: "index_fields_on_song_id", using: :btree
+  end
+
   create_table "songs", force: :cascade do |t|
     t.string   "title"
-    t.hstore   "data"
     t.string   "comments"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "user_id"
-    t.index ["data"], name: "index_songs_on_data", using: :gin
   end
 
   create_table "users", force: :cascade do |t|
