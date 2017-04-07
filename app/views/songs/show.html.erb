@@ -5,24 +5,22 @@
   <%= @song.title %>
 </p>
 
+<% @song.field_categories.order(:order).each do |cat| %>
 <p>
-  <strong>Data:</strong>
+  <strong><%= cat.name %></strong>
   <table>
-    <thead>
-      <th>Key</th>
-      <th>Value</th>
-    </thead>
     <tbody>
-      <% @song.data.each do |key, value| %>
+      <% @song.fields.where(field_category: cat).order(:name).each do |fld| %>
         <tr>
-          <td><%= key %></td>
-          <td><%= value %></td>
+          <td><%= fld.name %></td>
+          <td><%= fld.data %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
   <%#= @song.data %>
 </p>
+<% end %>
 
 <p>
   <strong>Comments:</strong>
