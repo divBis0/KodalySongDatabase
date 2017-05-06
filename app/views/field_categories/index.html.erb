@@ -13,6 +13,7 @@
   <tbody>
     <% @field_categories.each do |field_category| %>
       <tr>
+        <td><%= field_category.order %></td>
         <td><%= field_category.name %></td>
         <td><%= link_to 'Show', field_category %></td>
         <td><%= link_to 'Edit', edit_field_category_path(field_category) %></td>

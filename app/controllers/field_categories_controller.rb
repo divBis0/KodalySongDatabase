@@ -4,7 +4,7 @@ class FieldCategoriesController < ApplicationController
   # GET /field_categories
   # GET /field_categories.json
   def index
-    @field_categories = FieldCategory.all
+    @field_categories = FieldCategory.order(:order)
   end
 
   # GET /field_categories/1
@@ -69,6 +69,6 @@ class FieldCategoriesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def field_category_params
-      params.require(:field_category).permit(:name)
+      params.require(:field_category).permit(:name, :order)
     end
 end

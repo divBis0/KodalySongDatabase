@@ -19,6 +19,8 @@
   </table>
 
   <%= paginate @songs %>
+  
+  <%= link_to 'New Song', new_song_path, :class => "button button-large" %>
 
 <% else %>
   <div class="panel">

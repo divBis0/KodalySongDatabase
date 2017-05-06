@@ -1,31 +1,33 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Title:</strong>
-  <%= @song.title %>
-</p>
+<h1><%= @song.title %></h1>
 
-<% @song.field_categories.order(:order).each do |cat| %>
-<p>
-  <strong><%= cat.name %></strong>
-  <table>
-    <tbody>
-      <% @song.fields.where(field_category: cat).order(:name).each do |fld| %>
+<table>
+<% @categories.each do |cat| %>
+  <thead>
+  <tr>
+    <th colspan="2"><%= cat.name %></th>
+  </tr>
+  </thead>
+  <tbody>
+      <% @song.field_entries.select{|d| d.field.field_category == cat}.each do |datum| %>
         <tr>
-          <td><%= fld.name %></td>
-          <td><%= fld.data %></td>
+          <td><%= datum.field.name %></td>
+          <% if datum.field.display_type == "rhythm" %>
+            <td class="notation">
+          <% else %>
+            <td>
+          <% end %>
+          <%= datum.data %></td>
         </tr>
       <% end %>
-    </tbody>
-  </table>
-  <%#= @song.data %>
-</p>
+      </tbody>
 <% end %>
+</table>
 
+<h4>Comments:</h4>
 <p>
-  <strong>Comments:</strong>
-  <%= @song.comments %>
+<%= @song.comments %>
 </p>
-
 <%= link_to 'Edit', edit_song_path(@song) %> |
 <%= link_to 'Back', songs_path %>

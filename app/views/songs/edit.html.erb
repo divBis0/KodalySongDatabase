@@ -2,5 +2,6 @@
 
 <%= render 'form', song: @song %>
 
+<%= link_to 'Delete', @song, method: :delete, data: { confirm: 'Are you sure?' } %> |
 <%= link_to 'Show', @song %> |
-<%= link_to 'Back', songs_path %>
+<%= link_to 'Back to Index', songs_path %>

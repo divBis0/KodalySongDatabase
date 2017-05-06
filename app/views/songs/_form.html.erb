@@ -1,10 +1,27 @@
-<%= simple_form_for(song) do |f| %>
-  <%= f.error_notification =%>
+<%= simple_form_for(@song) do |f| %>
+  <%= f.error_notification %>
+  <% if @song.errors.any? %>
+    <% @song.errors.full_messages.each do |message| %>
+      <li><%= message %></li>
+    <% end %>
+  <% end %>
 
   <div class="form-inputs">
-    <%= f.input :title %>
-    <%= f.input :data %>
-    <%= f.input :comments %>
+    <h3>Title</h3><%= f.input :title, label: false %>
+    
+      <% @categories.each do |cat| %>
+        <hr>
+          <h3><%= cat.name %></h3>
+          <%= f.fields_for :field_entries, @song.field_entries.select { |fe| fe.field_category == cat } do |ff| %>
+            <div>
+              <%= ff.input :id, :as=>:hidden %>
+              <%= ff.input :field_id, :as=>:hidden %>
+              <%= ff.input :data, :as=>ff.object.field.display_type, label: ff.object.field.name %>
+            </div>
+          <% end %>
+      <% end %>
+    <hr>
+    <h3>Comments</h3><%= f.text_area :comments, :input_html => {:rows => 5} %>
   </div>
 
   <div class="form-actions">

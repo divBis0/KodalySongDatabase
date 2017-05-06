@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170407220700) do
+ActiveRecord::Schema.define(version: 20170408032848) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,16 +23,23 @@ ActiveRecord::Schema.define(version: 20170407220700) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "field_entries", force: :cascade do |t|
+    t.string   "data"
+    t.integer  "song_id"
+    t.integer  "field_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["field_id"], name: "index_field_entries_on_field_id", using: :btree
+    t.index ["song_id"], name: "index_field_entries_on_song_id", using: :btree
+  end
+
   create_table "fields", force: :cascade do |t|
     t.string   "name"
     t.integer  "display_type"
     t.integer  "field_category_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
-    t.integer  "song_id"
-    t.string   "data"
     t.index ["field_category_id"], name: "index_fields_on_field_category_id", using: :btree
-    t.index ["song_id"], name: "index_fields_on_song_id", using: :btree
   end
 
   create_table "songs", force: :cascade do |t|
