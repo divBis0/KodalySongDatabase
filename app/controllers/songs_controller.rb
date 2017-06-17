@@ -97,7 +97,7 @@ class SongsController < ApplicationController
       #params.require(:song).permit(:title, :comments)#.tap do |whitelisted|
       #  whitelisted[:field_entries_attributes] = field_entries_attributes
       #end
-      pp params.require(:song).permit(:title, :comments, field_entries_attributes: [:id, :data, :field_id])
+      #pp params.require(:song).permit(:title, :comments, field_entries_attributes: [:id, :data, :field_id])
       #pp params.permitted?
       #params.require(:song).require(:field_entries_attributes).permit(:data)
       #pp params
