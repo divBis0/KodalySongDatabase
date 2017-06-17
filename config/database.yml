@@ -20,10 +20,14 @@ default: &default
   # For details on connection pooling, see rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: postgres
+  host: herokuPostgresql
+  port: 5432
 
 development:
   <<: *default
   database: user_development
+  #url: "postgres://postgres:@herokuPostgresql:5432/user_development"
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -58,7 +62,7 @@ development:
 test:
   <<: *default
   database: user_test
-  url: "postgres://postgres:@herokuPostgresql:5432/user_test"
+  #url: "postgres://postgres:@herokuPostgresql:5432/user_test"
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is

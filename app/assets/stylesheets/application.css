@@ -12,6 +12,7 @@
  *
  *= require_tree .
  *= require_self
+ *= require jquery-ui
  *= require foundation_and_overrides
 
  */
@@ -41,6 +42,15 @@
   font-family: Bravura;
   font-size: 1.4em;
   font-weight: bold;
+  padding-top: 1.4em;
+  height: 4em
+}
+
+div.ui-notation-keyboard button:not(.ui-keyboard-actionkey) {
+  font-family: Bravura;
+  font-size: 1.4em;
+  font-weight: bold;
+  height: 3em;
 }
 
 ul.hmenu {
