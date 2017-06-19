@@ -10,3 +10,6 @@ tmp/**
 
 # Ignore Byebug command history file.
 .byebug_history
+
+# Ignore backup files
+*.bkup*

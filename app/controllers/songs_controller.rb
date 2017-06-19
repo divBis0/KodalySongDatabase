@@ -92,7 +92,7 @@ class SongsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def song_params
-    pp [Field.all.map {|f| f.id}, :data]
+    #pp [Field.all.map {|f| f.id}, :data]
       #field_entries_attributes = params[:song].delete(:field_entries_attributes)
       #params.require(:song).permit(:title, :comments)#.tap do |whitelisted|
       #  whitelisted[:field_entries_attributes] = field_entries_attributes
@@ -101,6 +101,6 @@ class SongsController < ApplicationController
       #pp params.permitted?
       #params.require(:song).require(:field_entries_attributes).permit(:data)
       #pp params
-      params.require(:song).permit(:title, :comments, field_entries_attributes: [:id, :data, :field_id])
+      params.require(:song).permit(:title, :comments, :source_id, field_entries_attributes: [:id, :data, :field_id])
     end
 end

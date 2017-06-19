@@ -10,6 +10,18 @@
   </tr>
   </thead>
   <tbody>
+      <% if cat.name == "Source" %>
+        <% if @song.source.present? %>
+          <% [:title, :author].each do |name| %>
+            <% if @song.source[name].present? %>
+              <tr>
+                <td><%= name.to_s.humanize %></td>
+                <td><%= @song.source[name] %></td>
+              </tr>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
       <% @song.field_entries.select{|d| d.field.field_category == cat}.each do |datum| %>
         <tr>
           <td><%= datum.field.name %></td>

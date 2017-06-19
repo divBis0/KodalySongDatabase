@@ -12,6 +12,12 @@
       <% @categories.each do |cat| %>
         <hr>
           <h3><%= cat.name %></h3>
+          <% if cat.name == "Source" %>
+          <div class="inline-form-elements">
+            <%= f.collection_select :source_id, current_user.sources.order(:title),:id,:title, include_blank: true %>
+            <%= link_to 'New Source', new_source_path, :class => "button" %>
+            </div>
+          <% end %>
           <%= f.fields_for :field_entries, @song.field_entries.select { |fe| fe.field_category == cat } do |ff| %>
             <div>
               <%= ff.input :id, :as=>:hidden %>

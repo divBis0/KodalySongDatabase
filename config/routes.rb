@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :sources
   resources :fields
   resources :field_categories
   get 'site/index'

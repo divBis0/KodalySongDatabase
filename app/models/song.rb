@@ -3,6 +3,7 @@ class Song < ApplicationRecord
   has_many :field_entries
   has_many :fields,           :through => :field_entries,  :source => :field
   #has_many :field_categories, :through => :fields,        :source => :field_categories
+  belongs_to :source
   
   accepts_nested_attributes_for :field_entries,
     :allow_destroy => true,

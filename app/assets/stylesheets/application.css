@@ -53,6 +53,19 @@ div.ui-notation-keyboard button:not(.ui-keyboard-actionkey) {
   height: 3em;
 }
 
+div.inline-form-elements * {
+  display: inline-block;
+}
+
+div.inline-form-elements select {
+  width: 84%;
+}
+
+div.inline-form-elements a {
+  width: 15%;
+  margin-top: 12px;
+}
+
 ul.hmenu {
   text-align: right;
   list-style: none;	
