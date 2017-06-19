@@ -1,3 +1,4 @@
+<%= javascript_include_tag "application" %>
 <%= simple_form_for(@song) do |f| %>
   <%= f.error_notification %>
   <% if @song.errors.any? %>
