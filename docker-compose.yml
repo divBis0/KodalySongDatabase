@@ -4,7 +4,7 @@ web:
   working_dir: /app/user
   environment:
     PORT: 8080
-    DATABASE_URL: 'postgres://postgres:@herokuPostgresql:5432/user_development'
+    #DATABASE_URL: 'postgres://postgres:@herokuPostgresql:5432/user_development'
   ports:
     - '8080:8080'
   links:
@@ -15,7 +15,7 @@ shell:
   working_dir: /app/user
   environment:
     PORT: 8080
-    DATABASE_URL: 'postgres://postgres:@herokuPostgresql:5432/user_development'
+    #DATABASE_URL: 'postgres://postgres:@herokuPostgresql:5432/user_development'
   ports:
     - '8080:8080'
   links:

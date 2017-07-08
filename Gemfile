@@ -38,6 +38,9 @@ gem 'jbuilder', '~> 2.5'
 # Use devise for authentication
 gem 'devise', '~> 4.2.0'
 
+# Use ransack for filtering
+gem 'ransack'
+
 # Css framework
 gem 'foundation-rails', '~> 6.3.0'
 gem 'simple_form', '~> 3.4.0'

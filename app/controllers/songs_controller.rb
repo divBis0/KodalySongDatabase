@@ -5,7 +5,11 @@ class SongsController < ApplicationController
   # GET /songs
   # GET /songs.json
   def index
-    @songs = current_user.songs.page(params[:page])
+    @q = current_user.songs.search(params[:q])
+    @songs = @q.result.page(params[:page])#.to_a.uniq
+    #@songs = current_user.songs.page(params[:page])
+    # To do:
+    # Create list of 
   end
 
   # GET /songs/1
