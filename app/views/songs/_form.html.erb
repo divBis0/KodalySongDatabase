@@ -9,6 +9,19 @@
   <div class="form-inputs">
     <h3>Title</h3><%= f.input :title, label: false %>
     
+      <div class="preview">
+        <% if @song.image_path.present? %>
+          <%= cl_image_tag(@song.image_path, :crop => :fill, :width => 800) %>
+        <% end %>
+      </div>
+      <div>
+        <div class="upload_button_holder">
+          <%= link_to("Upload New Image", "#", :class => "button") %>
+          <%= f.cl_image_upload(:image_id, :tags => "unvalidated", :use_filename => true, :folder => current_user.id) %>
+        </div>
+        <span class="status"></span>
+      </div>
+    
       <% @categories.each do |cat| %>
         <hr>
           <h3><%= cat.name %></h3>
@@ -33,4 +46,68 @@
   <div class="form-actions">
     <%= f.button :submit %>
   </div>
+  <%# = f.hidden_field :bytes %>
 <% end %>
+
+<div id="info"></div>
+
+<%= cloudinary_js_config %>
+
+<script>
+  $(document).ready(function() {
+    // Cloudinary jQuery integration library uses jQuery File Upload widget
+    // (see http://blueimp.github.io/jQuery-File-Upload/).
+    // Any file input field with cloudinary-fileupload class is automatically
+    // wrapped using the File Upload widget and configured for Cloudinary uploads.
+    // You can further customize the configuration using .fileupload method
+    // as we do below.
+    $(".cloudinary-fileupload")
+      .cloudinary_fileupload({
+        // Uncomment the following lines to enable client side image resizing and valiation.
+        // Make sure cloudinary/processing is included the js file
+        //disableImageResize: false,
+        //imageMaxWidth: 800,
+        //imageMaxHeight: 600,
+        acceptFileTypes: /(\.|\/)(gif|jpe?g|png|webp)$/i,
+        maxFileSize: 1000000, // 1MB
+        //dropZone: "#direct_upload",
+        start: function (e) {
+          $(".status").text("Starting upload...");
+        },
+        progress: function (e, data) {
+          $(".status").text("Uploading... " + Math.round((data.loaded * 100.0) / data.total) + "%");
+        },
+        fail: function (e, data) {
+          $(".status").text("Upload failed");
+        },
+        replaceFileInput:false
+      })
+      .off("cloudinarydone").on("cloudinarydone", function (e, data) {
+        $(".status").text("");
+        var preview = $(".preview").html('');
+        $.cloudinary.image(data.result.public_id, {
+          format: data.result.format, crop: "fill", width: "800"
+        }).appendTo(preview);
+
+        //view_upload_details(data.result); // Uncomment to debug
+      });
+      /*$("input.cloudinary-fileupload[type=file]").cloudinary_fileupload({
+        replaceFileInput:false
+      });*/
+    });
+
+    function view_upload_details(upload) {
+      // Build an html table out of the upload object
+      var rows = [];
+      $.each(upload, function(k,v){
+        rows.push(
+          $("<tr>")
+            .append($("<td>").text(k))
+            .append($("<td>").text(JSON.stringify(v))));
+      });
+      $("#info").html(
+        $("<div class=\"upload_details\">")
+          .append("<h2>Upload metadata:</h2>")
+          .append($("<table>").append(rows)));
+    }
+</script>

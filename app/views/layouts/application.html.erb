@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title><%= content_for?(:title) ? yield(:title) : "Untitled" %></title>
+    <title><%= content_for?(:title) ? yield(:title) : "Kodaly Song Database" %></title>
 
     <%= stylesheet_link_tag    "application" %>
     <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
@@ -12,12 +12,17 @@
   </head>
 
   <body>
+    <div class="header">
     <ul class="hmenu">
+    <li><%= link_to 'Search', songs_path %></li> |
     <%= render 'devise/menu/registration_items' %> |
     <%= render 'devise/menu/login_items' %>
     </ul>
+    </div>
 
+    <div class="content">
     <%= yield %>
+    </div>
 
   </body>
 </html>

@@ -2,6 +2,10 @@
 
 <h1><%= @song.title %></h1>
 
+<% if @song.image_path.present? %>
+  <%= cl_image_tag(@song.image_path, :crop => :fill, :width => 800) %>
+<% end %>
+
 <table>
 <% @categories.each do |cat| %>
   <thead>

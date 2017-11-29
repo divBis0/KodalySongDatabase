@@ -13,3 +13,6 @@ tmp/**
 
 # Ignore backup files
 *.bkup*
+
+#Ignore cloudinary config
+config/cloudinary.yml

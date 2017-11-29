@@ -69,10 +69,36 @@ div.inline-form-elements a {
 ul.hmenu {
   text-align: right;
   list-style: none;	
-  margin: 0 0 2em;
+  margin: 0.5em;
   padding: 0;
 }
 
 ul.hmenu li {
-  display: inline;  
+  display: inline;
 }
+
+a:visited.button {
+  color: white;
+}
+
+div.header {
+  position:fixed;
+  width:100%;
+  top:0;
+  left:0;
+  padding-right:0.5em;
+  background: #1779ba;
+}
+
+div.content {
+  margin-top: calc(1em + 13px);
+}
+
+div.header li a {
+  color: white;
+}
+
+div.header li a:visited {
+  color: white;
+}
+

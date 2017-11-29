@@ -42,13 +42,12 @@ class SongsController < ApplicationController
     tmp = song_params;
     field_entries_attributes = tmp.delete(:field_entries_attributes)
     @song = current_user.songs.new(tmp)
-
     respond_to do |format|
       if @song.save && (field_entries_attributes.values.map { |values| values[:data].blank? || @song.field_entries.build(values) }.empty? || @song.save)
         format.html { redirect_to @song, notice: 'current_user.songs was successfully created.' }
         format.json { render :show, status: :created, location: @song }
       else
-      pp @song.errors.full_messages
+        pp @song.errors.full_messages
         format.html { render :new }
         format.json { render json: @song.errors, status: :unprocessable_entity }
       end
@@ -60,8 +59,16 @@ class SongsController < ApplicationController
   def update
     tmp = song_params;
     tmp[:field_entries_attributes].values.map { |values| values[:data].blank? && values[:_destroy] = true }
+    old_image_id = @song.image_id
     respond_to do |format|
       if @song.update(tmp)
+        if old_image_id.present? && old_image_id != @song.image_id
+          pp Cloudinary::Api.delete_resources([old_image_id])
+        end
+        if @song.image_id.present? && old_image_id != @song.image_id
+          pp "Validating new image: #{@song.image_id}"
+          Cloudinary::Uploader.replace_tag("validated", [@song.image_id])
+        end
         format.html { redirect_to @song, notice: 'current_user.songs was successfully updated.' }
         format.json { render :show, status: :ok, location: @song }
       else
@@ -74,6 +81,9 @@ class SongsController < ApplicationController
   # DELETE /songs/1
   # DELETE /songs/1.json
   def destroy
+    if @song.image_id.present?
+        pp Cloudinary::Api.delete_resources([@song.image_id])
+    end
     @song.destroy
     respond_to do |format|
       format.html { redirect_to songs_url, notice: 'current_user.songs was successfully destroyed.' }
@@ -105,6 +115,13 @@ class SongsController < ApplicationController
       #pp params.permitted?
       #params.require(:song).require(:field_entries_attributes).permit(:data)
       #pp params
-      params.require(:song).permit(:title, :comments, :source_id, field_entries_attributes: [:id, :data, :field_id])
+      
+      if params[:song][:image_id].present?
+        preloaded = Cloudinary::PreloadedFile.new(params[:song][:image_id])         
+        raise "Invalid upload signature" if !preloaded.valid?
+        params[:song][:image_id] = preloaded.public_id
+        params[:song][:image_path] = preloaded.identifier
+      end
+      params.require(:song).permit(:title, :comments, :source_id, :image_id, :image_path, field_entries_attributes: [:id, :data, :field_id])
     end
 end

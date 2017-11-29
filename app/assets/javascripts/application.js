@@ -15,6 +15,8 @@
 //= require jquery_ujs
 //= require foundation
 //= require turbolinks
+//= require cloudinary
+//= require cloudinary/processing
 //= require_tree .
 
 $(function(){ $(document).foundation(); });
