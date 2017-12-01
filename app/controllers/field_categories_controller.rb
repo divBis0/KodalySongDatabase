@@ -1,5 +1,7 @@
 class FieldCategoriesController < ApplicationController
   before_action :set_field_category, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
+  before_action :authenticate_admin!
 
   # GET /field_categories
   # GET /field_categories.json

@@ -1,4 +1,5 @@
 class SiteController < ApplicationController
+  before_action :authenticate_user!
   def index
     if current_user
       # retrieve all Songs ordered by descending creation timestamp

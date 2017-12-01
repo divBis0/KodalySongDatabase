@@ -34,8 +34,13 @@ gem 'jbuilder', '~> 2.5'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.11'
 
+# Use figaro for config files
+gem 'figaro'
+
 # Use devise for authentication
 gem 'devise', '~> 4.2.0'
+# Use devise_invitable for adding new users
+gem 'devise_invitable', '~> 1.7.0'
 
 # Use ransack for filtering
 gem 'ransack'

@@ -66,14 +66,24 @@ div.inline-form-elements a {
   margin-top: 12px;
 }
 
-ul.hmenu {
-  text-align: right;
+div.header ul {
   list-style: none;	
   margin: 0.5em;
   padding: 0;
+  display: inline;
 }
 
-ul.hmenu li {
+div.header ul.lmenu {
+  text-align: left;
+  float: left;
+}
+
+div.header ul.rmenu {
+  text-align: right;
+  float: right;
+}
+
+div.header ul li {
   display: inline;
 }
 
@@ -88,17 +98,29 @@ div.header {
   left:0;
   padding-right:0.5em;
   background: #1779ba;
+  display: inline;
+}
+
+div.footer {
+  position:fixed;
+  bottom:0;
+  margin: 0.5em;
+  background: white;
 }
 
 div.content {
   margin-top: calc(1em + 13px);
+  margin-bottom: calc(1em + 13px);
 }
 
-div.header li a {
+div.header a {
   color: white;
 }
 
-div.header li a:visited {
+div.header a:visited {
   color: white;
 }
 
+#alert {
+  color: red;
+}
