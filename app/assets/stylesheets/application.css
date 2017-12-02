@@ -16,27 +16,6 @@
  *= require foundation_and_overrides
 
  */
-@font-face {
-  font-family: 'Bravura';
-  src:url('fonts/Bravura.eot');
-  src:url('fonts/Bravura.eot?#iefix') format('embedded-opentype'),
-    url('fonts/Bravura.svg#Bravura') format('svg'),
-    url('fonts/Bravura.woff') format('woff'),
-    url('fonts/Bravura.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'BravuraText';
-  src:url('fonts/BravuraText.eot');
-  src:url('fonts/BravuraText.eot?#iefix') format('embedded-opentype'),
-    url('fonts/BravuraText.svg#BravuraText') format('svg'),
-    url('fonts/BravuraText.woff') format('woff'),
-    url('fonts/BravuraText.ttf') format('truetype');
-  font-weight: normal;
-  font-style: normal;
-}
 
 .notation {
   font-family: Bravura;

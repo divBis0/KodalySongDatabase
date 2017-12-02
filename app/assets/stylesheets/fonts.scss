@@ -1,0 +1,22 @@
+
+@font-face {
+  font-family: 'Bravura';
+  src:url(asset-path('Bravura.eot'));
+  src:url(asset-path('Bravura.eot?#iefix')) format('embedded-opentype'),
+    url(asset-path('Bravura.svg#Bravura')) format('svg'),
+    url(asset-path('Bravura.woff')) format('woff'),
+    url(asset-path('Bravura.ttf')) format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'BravuraText';
+  src:url(asset-path('BravuraText.eot'));
+  src:url(asset-path('BravuraText.eot?#iefix')) format('embedded-opentype'),
+    url(asset-path('BravuraText.svg#BravuraText')) format('svg'),
+    url(asset-path('BravuraText.woff')) format('woff'),
+    url(asset-path('BravuraText.ttf')) format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
