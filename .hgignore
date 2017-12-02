@@ -16,3 +16,4 @@ tmp/**
 
 #Ignore cloudinary config
 config/cloudinary.yml
+config/application.yml

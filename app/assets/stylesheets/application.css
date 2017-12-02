@@ -18,22 +18,22 @@
  */
 @font-face {
   font-family: 'Bravura';
-  src:url('Bravura.eot');
-  src:url('Bravura.eot?#iefix') format('embedded-opentype'),
-    url('Bravura.svg#Bravura') format('svg'),
-    url('Bravura.woff') format('woff'),
-    url('Bravura.ttf') format('truetype');
+  src:url('fonts/Bravura.eot');
+  src:url('fonts/Bravura.eot?#iefix') format('embedded-opentype'),
+    url('fonts/Bravura.svg#Bravura') format('svg'),
+    url('fonts/Bravura.woff') format('woff'),
+    url('fonts/Bravura.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'BravuraText';
-  src:url('BravuraText.eot');
-  src:url('BravuraText.eot?#iefix') format('embedded-opentype'),
-    url('BravuraText.svg#BravuraText') format('svg'),
-    url('BravuraText.woff') format('woff'),
-    url('BravuraText.ttf') format('truetype');
+  src:url('fonts/BravuraText.eot');
+  src:url('fonts/BravuraText.eot?#iefix') format('embedded-opentype'),
+    url('fonts/BravuraText.svg#BravuraText') format('svg'),
+    url('fonts/BravuraText.woff') format('woff'),
+    url('fonts/BravuraText.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
 }
