@@ -18,7 +18,8 @@
     </ul>
     <ul class="rmenu">
     <% if user_signed_in? %>
-    <li><%= link_to 'Search', songs_path %></li> |
+    <li><%= link_to 'Songs/Search', songs_path %></li> |
+    <li><%= link_to 'Sources', sources_path %></li> |
     <%= render 'devise/menu/registration_items' %> |
     <% end %>
     <%= render 'devise/menu/login_items' %>
@@ -34,7 +35,7 @@
     <% if current_user %>
       <div class="footer">
         <%= mail_to ENV["GMAIL_USERNAME"] do %>
-          <strong>Issues? Email the Webmaster:</strong> <span><%= ENV["GMAIL_USERNAME"] %></span>
+          <strong>Questions? Issues? Suggestions? Email them all to:</strong> <span><%= ENV["GMAIL_USERNAME"] %></span>
        <% end %>
       </div>
     <% end %>

@@ -20,6 +20,7 @@ class SongsController < ApplicationController
   # GET /songs/new
   def new
     @song = current_user.songs.new
+    @song.source = current_user.sources.new
     #pp @song
     #@datums = Field.all.to_a.collect{ |fld| @song.field_entries.build(field_id: fld.id) }
     #pp @datums
@@ -33,6 +34,9 @@ class SongsController < ApplicationController
     (Field.all - @song.fields).each do |field|
       @song.field_entries.build(field_id: field.id)
     end
+    unless @song.source
+      @song.source = Source.new
+    end
     @song
   end
 
@@ -41,6 +45,9 @@ class SongsController < ApplicationController
   def create
     tmp = song_params;
     field_entries_attributes = tmp.delete(:field_entries_attributes)
+    if tmp[:source_attributes].present?
+      tmp[:source_attributes][:user_id] = current_user.id;
+    end
     @song = current_user.songs.new(tmp)
     respond_to do |format|
       if @song.save && (field_entries_attributes.values.map { |values| values[:data].blank? || @song.field_entries.build(values) }.empty? || @song.save)
@@ -59,6 +66,14 @@ class SongsController < ApplicationController
   def update
     tmp = song_params;
     tmp[:field_entries_attributes].values.map { |values| values[:data].blank? && values[:_destroy] = true }
+    if tmp[:source_attributes].present?
+      if tmp[:source_attributes][:id].present?
+        tmp[:source_attributes].delete(:id);
+      end
+      @source = current_user.sources.create(tmp[:source_attributes]);
+      tmp[:source_id] = @source.id;
+      tmp.delete(:source_attributes);
+    end
     old_image_id = @song.image_id
     respond_to do |format|
       if @song.update(tmp)
@@ -122,6 +137,13 @@ class SongsController < ApplicationController
         params[:song][:image_id] = preloaded.public_id
         params[:song][:image_path] = preloaded.identifier
       end
-      params.require(:song).permit(:title, :comments, :source_id, :image_id, :image_path, field_entries_attributes: [:id, :data, :field_id])
+      if params[:source_sel] == "new"
+        params.require(:song).permit(:title, :comments, :image_id, :image_path,
+            field_entries_attributes: [:id, :data, :field_id],
+            source_attributes: [:id, :title, :author, :publisher, :city, :copyright_year, :website])
+      else
+        params.require(:song).permit(:title, :comments, :source_id, :image_id, :image_path,
+            field_entries_attributes: [:id, :data, :field_id])
+      end
     end
 end

@@ -20,4 +20,7 @@
 //= require cloudinary/processing
 //= require_tree .
 
-$(function(){ $(document).foundation(); });
+$(document).on('turbolinks:load', function() {
+  $(function(){ $(document).foundation(); });
+});
+//$(function(){ $(document).foundation(); });

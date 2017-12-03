@@ -8,6 +8,8 @@ class Song < ApplicationRecord
   accepts_nested_attributes_for :field_entries,
     :allow_destroy => true,
     :reject_if => proc {|attributes| attributes[:data].blank?}
+    
+  accepts_nested_attributes_for :source, reject_if: lambda {|attributes| attributes['title'].blank?}
   
   # ensure that a user_id is present
   validates :user_id, presence: true
