@@ -39,10 +39,12 @@
 <% end %>
 </table>
 
-<h4>Comments:</h4>
-<p>
-<%= @song.comments %>
-</p>
+<% unless @song.comments.empty? %>
+  <h4>Comments:</h4>
+  <p>
+    <%= @song.comments %>
+  </p>
+<% end %>
 <%= link_to 'Edit', edit_song_path(@song) %> |
 <%= link_to 'Create Another', new_song_path %> |
 <%= link_to 'Back', songs_path %>
