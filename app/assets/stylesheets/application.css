@@ -32,17 +32,26 @@ div.ui-notation-keyboard button:not(.ui-keyboard-actionkey) {
   height: 3em;
 }
 
-div.inline-form-elements * {
-  display: inline-block;
+div.form-table {
+  width: 100%;
+  display: table;
 }
 
-div.inline-form-elements select {
-  width: 84%;
+div.form-table-row {
+  display: table-row;
 }
 
-div.inline-form-elements a {
-  width: 15%;
-  margin-top: 12px;
+div.form-table-cell {
+  display: table-cell;
+}
+
+h2 div input[type='text'] {
+  font-size: 3rem;
+  height: 4rem;
+}
+
+div.form-table-cell+div.form-table-cell {
+  padding-left: 1rem;
 }
 
 div.header ul {

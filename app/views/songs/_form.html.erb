@@ -7,60 +7,70 @@
   <% end %>
 
   <div class="form-inputs">
-    <h3>Title</h3><%= f.input :title, label: false %>
-    
-      <div class="preview">
-        <% if @song.image_path.present? %>
-          <%= cl_image_tag(@song.image_path, :crop => :fill, :width => 800) %>
-        <% end %>
-      </div>
-      <div>
-        <div class="upload_button_holder">
-          <%= link_to("Upload New Image", "#", :class => "button") %>
-          <%= f.cl_image_upload(:image_id, :tags => "unvalidated", :use_filename => true, :folder => current_user.id) %>
+    <div class="form-table">
+      <div class="form-table-row">
+        <div class="form-table-cell">
+          <h2><%= f.input :title, label: false %></h2>
         </div>
-        <span class="status"></span>
+        <div class="form-actions form-table-cell" style="width: 120px">
+          <%= f.button :submit %>
+        </div>
       </div>
-    
-      <% @categories.each do |cat| %>
-        <hr>
-          <h3><%= cat.name %></h3>
-          <% if cat.name == "Source" %>
-            <div>
-              <%= hidden_field_tag(:source_sel, current_user.sources.empty? ? "new" : "existing") %>
-              <ul class="accordion" data-accordion>
-                <li class="accordion-item <%= 'is-active' if current_user.sources.empty? =%>" data-accordion-item>
-                  <a href="#" class="accordion-title new-source" id="newSourceA">New Source</a>
-                  <div class="accordion-content" data-tab-content >
-                    <%= f.fields_for :source do |ff| %>
-                      <div class="form-inputs">
-                        <%= ff.input :title %>
-                        <%= ff.input :author %>
-                        <%= ff.input :publisher %>
-                        <%= ff.input :city %>
-                        <%= ff.input :copyright_year %>
-                        <%= ff.input :web_site %>
-                      </div>
-                    <% end %>
-                  </div>
-                </li>
-                <li class="accordion-item <%= 'is-active' unless current_user.sources.empty? =%>" data-accordion-item>
-                  <a href="#" class="accordion-title existing-source" id="existingSourceA">Existing Source</a>
-                  <div class="accordion-content" data-tab-content >
-                    <%= f.collection_select :source_id, current_user.sources.order(:title),:id,:title, include_blank: true %>
-                  </div>
-                </li>
-              </ul>
-            </div>
-          <% end %>
-          <%= f.fields_for :field_entries, @song.field_entries.select { |fe| fe.field_category == cat } do |ff| %>
-            <div>
-              <%= ff.input :id, :as=>:hidden %>
-              <%= ff.input :field_id, :as=>:hidden %>
-              <%= ff.input :data, :as=>ff.object.field.display_type, label: ff.object.field.name %>
-            </div>
-          <% end %>
+    </div>
+    <hr>
+    <h3>Notation</h3>
+    <div class="preview">
+      <% if @song.image_path.present? %>
+        <%= cl_image_tag(@song.image_path, :crop => :fill, :width => 800) %>
       <% end %>
+    </div>
+    <div>
+      <div class="upload_button_holder">
+        <%= link_to("Upload New Image", "#", :class => "button") %>
+        <%= f.cl_image_upload(:image_id, :tags => "unvalidated", :use_filename => true, :folder => current_user.id) %>
+      </div>
+      <span class="status"></span>
+    </div>
+    
+    <% @categories.each do |cat| %>
+      <hr>
+        <h3><%= cat.name %></h3>
+        <% if cat.name == "Source" %>
+          <div>
+            <%= hidden_field_tag(:source_sel, current_user.sources.empty? ? "new" : "existing") %>
+            <ul class="accordion" data-accordion>
+              <li class="accordion-item <%= 'is-active' if current_user.sources.empty? =%>" data-accordion-item>
+                <a href="#" class="accordion-title new-source" id="newSourceA">New Source</a>
+                <div class="accordion-content" data-tab-content >
+                  <%= f.fields_for :source do |ff| %>
+                    <div class="form-inputs">
+                      <%= ff.input :title %>
+                      <%= ff.input :author %>
+                      <%= ff.input :publisher %>
+                      <%= ff.input :city %>
+                      <%= ff.input :copyright_year %>
+                      <%= ff.input :web_site %>
+                    </div>
+                  <% end %>
+                </div>
+              </li>
+              <li class="accordion-item <%= 'is-active' unless current_user.sources.empty? =%>" data-accordion-item>
+                <a href="#" class="accordion-title existing-source" id="existingSourceA">Existing Source</a>
+                <div class="accordion-content" data-tab-content >
+                  <%= f.collection_select :source_id, current_user.sources.order(:title),:id,:title, include_blank: true %>
+                </div>
+              </li>
+            </ul>
+          </div>
+        <% end %>
+        <%= f.fields_for :field_entries, @song.field_entries.select { |fe| fe.field_category == cat } do |ff| %>
+          <div>
+            <%= ff.input :id, :as=>:hidden %>
+            <%= ff.input :field_id, :as=>:hidden %>
+            <%= ff.input :data, :as=>ff.object.field.display_type, label: ff.object.field.name %>
+          </div>
+        <% end %>
+    <% end %>
     <hr>
     <h3>Comments</h3><%= f.text_area :comments, :input_html => {:rows => 5} %>
   </div>
@@ -68,7 +78,6 @@
   <div class="form-actions">
     <%= f.button :submit %>
   </div>
-  <%# = f.hidden_field :bytes %>
 <% end %>
 
 <div id="info"></div>
