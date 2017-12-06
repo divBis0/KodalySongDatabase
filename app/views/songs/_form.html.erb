@@ -62,6 +62,25 @@
               </li>
             </ul>
           </div>
+        <% elsif cat.name == "Pedagogy" %>
+          <div class="concepts">
+            <table id="song_concepts_table">
+              <tbody>
+                <tr>
+                  <th>Concept</th>
+                  <th>Prepare</th>
+                  <th>Practice</th>
+                  <th>Present</th>
+                  <th>Delete</th>
+                </tr>
+                <%= f.fields_for :concepts do |ff| %>
+                  <%= render partial: 'concept_fields', locals: {f: ff} %>
+                <% end %>
+              </tbody>
+            </table>
+            <%= link_to_add_concept_fields(f, "#song_concepts_table", @song, false) %>
+            <%= link_to_add_concept_fields(f, "#song_concepts_table", @song, true) %>
+          </div>
         <% end %>
         <%= f.fields_for :field_entries, @song.field_entries.select { |fe| fe.field_category == cat } do |ff| %>
           <div>
@@ -125,32 +144,61 @@
       /*$("input.cloudinary-fileupload[type=file]").cloudinary_fileupload({
         replaceFileInput:false
       });*/
-    });
+  });
 
-    function view_upload_details(upload) {
-      // Build an html table out of the upload object
-      var rows = [];
-      $.each(upload, function(k,v){
-        rows.push(
-          $("<tr>")
-            .append($("<td>").text(k))
-            .append($("<td>").text(JSON.stringify(v))));
-      });
-      $("#info").html(
-        $("<div class=\"upload_details\">")
-          .append("<h2>Upload metadata:</h2>")
-          .append($("<table>").append(rows)));
-    }
-    
-    $(document).ready(function() {
-      $("a.new-source").click(function(e) {
-        $("#source_sel").val("new");
+  function view_upload_details(upload) {
+    // Build an html table out of the upload object
+    var rows = [];
+    $.each(upload, function(k,v){
+      rows.push(
+        $("<tr>")
+          .append($("<td>").text(k))
+          .append($("<td>").text(JSON.stringify(v))));
+    });
+    $("#info").html(
+      $("<div class=\"upload_details\">")
+        .append("<h2>Upload metadata:</h2>")
+        .append($("<table>").append(rows)));
+  }
+  
+  function remove_concept(button_element) {
+    button_element.prev("input[type=hidden]").val(1);
+    button_element.closest("tr").hide();
+  }
+  
+  jQuery(function($) {
+    $("button.add-concept").click(function() {
+      var new_id = new Date().getTime();
+      var regexp = new RegExp($(this).data("placeholderIx"), "g");
+      var tbody_ref = $('#song_concepts_table > tbody:last-child').append($(this).data("fields").replace(regexp, new_id));
+      tbody_ref.find('tr:last').find('textarea.rhythm.notation').keyboard(NotationKeyboard.options).addTyping({showTyping : true});
+      tbody_ref.find('tr:last').find('button.del-concept').click(function() {
+        remove_concept($(this));
       });
     });
     
-    $(document).ready(function() {
-      $("a.existing-source").click(function(e) {
-        $("#source_sel").val("existing");
-      });
+    // *** Mapped keys ***
+    $('.rhythm.notation').keyboard(NotationKeyboard.options).addTyping({showTyping : true});
+    
+    // *** Mapped keys ***
+    $('.tones').not('.ui-keyboard-input').keyboard(ToneKeyboard.options).addTyping({showTyping : true});
+  });
+  
+  $(document).ready(function() {
+    $("a.new-source").click(function(e) {
+      $("#source_sel").val("new");
     });
+  });
+  
+  $(document).ready(function() {
+    $("a.existing-source").click(function(e) {
+      $("#source_sel").val("existing");
+    });
+  });
+  
+  $(document).ready(function() {
+    $("button.del-concept").click(function() {
+      remove_concept($(this));
+    });
+  });
 </script>

@@ -1,7 +1,8 @@
-jQuery(function($) {
+var ToneKeyboard = {};
 
-// *** Mapped keys ***
-$('.tones').not('.ui-keyboard-input').keyboard({
+jQuery(function($) {
+  
+ToneKeyboard.options = {
 	layout: 'custom',
 	customLayout: {
 		'normal' : [
@@ -20,6 +21,6 @@ $('.tones').not('.ui-keyboard-input').keyboard({
   tabNavigation : true,
   autoAccept : true,
 	usePreview: false // no preveiw
-}).addTyping({showTyping : true});
+};
 
 });

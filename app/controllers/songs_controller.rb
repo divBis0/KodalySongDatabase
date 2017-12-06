@@ -129,8 +129,7 @@ class SongsController < ApplicationController
       #pp params.require(:song).permit(:title, :comments, field_entries_attributes: [:id, :data, :field_id])
       #pp params.permitted?
       #params.require(:song).require(:field_entries_attributes).permit(:data)
-      #pp params
-      
+      pp params
       if params[:song][:image_id].present?
         preloaded = Cloudinary::PreloadedFile.new(params[:song][:image_id])         
         raise "Invalid upload signature" if !preloaded.valid?
@@ -140,10 +139,12 @@ class SongsController < ApplicationController
       if params[:source_sel] == "new"
         params.require(:song).permit(:title, :comments, :image_id, :image_path,
             field_entries_attributes: [:id, :data, :field_id],
-            source_attributes: [:id, :title, :author, :publisher, :city, :copyright_year, :website])
+            source_attributes: [:id, :title, :author, :publisher, :city, :copyright_year, :website],
+            concepts_attributes: [:id, :name, :prepare, :practice, :present, :rhythm, :_destroy])
       else
         params.require(:song).permit(:title, :comments, :source_id, :image_id, :image_path,
-            field_entries_attributes: [:id, :data, :field_id])
+            field_entries_attributes: [:id, :data, :field_id],
+            concepts_attributes: [:id, :name, :prepare, :practice, :present, :rhythm, :_destroy])
       end
     end
 end

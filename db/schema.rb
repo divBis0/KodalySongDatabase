@@ -10,11 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171201030505) do
+ActiveRecord::Schema.define(version: 20171204022118) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
   enable_extension "hstore"
+
+  create_table "concepts", force: :cascade do |t|
+    t.integer  "song_id"
+    t.string   "name"
+    t.boolean  "rhythm"
+    t.boolean  "prepare"
+    t.boolean  "present"
+    t.boolean  "practice"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["song_id"], name: "index_concepts_on_song_id", using: :btree
+  end
 
   create_table "field_categories", force: :cascade do |t|
     t.string   "name"
@@ -88,4 +100,5 @@ ActiveRecord::Schema.define(version: 20171201030505) do
     t.index ["invited_by_id"], name: "index_users_on_invited_by_id", using: :btree
   end
 
+  add_foreign_key "concepts", "songs"
 end

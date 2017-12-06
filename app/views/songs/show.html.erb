@@ -23,6 +23,32 @@
             <% end %>
           <% end %>
         <% end %>
+      <% elsif (cat.name == "Pedagogy") && !(@song.concepts.empty?) %>
+        <tr><td>
+          <table id="song_concepts_table" class="show">
+            <tbody>
+              <tr>
+                <th>Concept</th>
+                <th>Prepare</th>
+                <th>Practice</th>
+                <th>Present</th>
+              </tr>
+              <% @song.concepts.each do |c| %>
+                <tr>
+                  <% if c.rhythm? %>
+                    <td class="notation">
+                  <% else %>
+                    <td>
+                  <% end %>
+                  <%= c.name %></td>
+                  <td><% if c.prepare? %>&#10004;<% end %></td>
+                  <td><% if c.present? %>&#10004;<% end %></td>
+                  <td><% if c.practice? %>&#10004;<% end %></td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </td></tr>
       <% end %>
       <% @song.field_entries.select{|d| d.field.field_category == cat}.each do |datum| %>
         <tr>

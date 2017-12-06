@@ -112,3 +112,12 @@ div.header a:visited {
 #alert {
   color: red;
 }
+
+#song_concepts_table input.boolean[type='checkbox'] {
+  margin: auto;
+  display: block;
+}
+
+#song_concepts_table td {
+  text-align: center;
+}

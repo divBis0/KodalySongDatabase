@@ -1,7 +1,8 @@
-jQuery(function($) {
+var NotationKeyboard = {};
 
-// *** Mapped keys ***
-$('.rhythm.optional.notation').keyboard({
+jQuery(function($) {
+  
+NotationKeyboard.options = {
 	layout: 'custom',
 	customLayout: {
 		'normal' : [
@@ -22,6 +23,6 @@ $('.rhythm.optional.notation').keyboard({
   tabNavigation : true,
   autoAccept : true,
 	usePreview: false // no preveiw
-}).addTyping({showTyping : true});
+};
 
 });
