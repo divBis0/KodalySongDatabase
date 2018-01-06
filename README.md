@@ -1,27 +1,9 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+KodalySongDatabase is a web application designed to organize analyses of songs for teachers practicing the Kodaly method.
 
-Things you may want to cover:
 
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+To roll your own server, here's some basic (incomplete) instructions to start a local instance:
 
 Build latest:
 docker-compose run shell bundle update
@@ -30,7 +12,3 @@ docker-compose build
 To run:
 docker-compose up web
 navigate to localhost:8080
-
-e.g. adding column:
-docker-compose run shell rails generate migration add_image_id_to_song image_id:string
-docker-compose run shell rake db:migrate
