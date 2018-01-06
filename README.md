@@ -6,9 +6,9 @@ KodalySongDatabase is a web application designed to organize analyses of songs f
 To roll your own server, here's some basic (incomplete) instructions to start a local instance:
 
 Build latest:
-docker-compose run shell bundle update
-docker-compose build
+* docker-compose run shell bundle update
+* docker-compose build
 
 To run:
-docker-compose up web
-navigate to localhost:8080
+* docker-compose up web
+* Using a browser, navigate to localhost:8080
