@@ -1,0 +1,17 @@
+<tr>
+  <% if b.nil? %>
+    <td>Search:</td>
+  <% else %>
+    <td><%= select_tag(b, options_for_select(@searchbinaryops,@aq[b])) %></td>
+  <% end %>
+  <td><%= select_tag(f, options_for_select(@searchfields,@aq[f]), {:class => 'field-select'}) %></td>
+  <td>
+  <% if @dt[f] == 'text' %>
+    <%= text_field_tag(q,@aq[q]) %>
+  <% elsif @dt[f] == 'tone' %>
+    <%= text_field_tag(q,@aq[q], {:class => 'tones'}) %>
+  <% else %>
+    <%= text_field_tag(q,@aq[q], {:class => 'rhythm notation'}) %>
+  <% end %>
+  </td>
+</tr>

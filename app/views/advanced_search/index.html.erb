@@ -1,0 +1,95 @@
+<h5>Advanced Search</h5>
+
+<%= form_tag("/advanced_search", method: "get") do %>
+  <div class="search_form">
+    <table>
+      <tbody>
+        <%= render("search_fields", :b =>  nil, :f => :f1, :q => :q1) %>
+        <%= render("search_fields", :b => :b12, :f => :f2, :q => :q2) %>
+        <%= render("search_fields", :b => :b23, :f => :f3, :q => :q3) %>
+        <%= render("search_fields", :b => :b34, :f => :f4, :q => :q4) %>
+      </tbody>
+    </table>
+    <%= submit_tag("Search") %>
+
+    <%#= link_to_add_search_fields(f, "#search_form_table", @aq, :text) %>
+    <%#= link_to_add_search_fields(f, "#search_form_table", @aq, :rhythm) %>
+    <%#= link_to_add_search_fields(f, "#search_form_table", @aq, :tone) %>
+  </div>
+<% end %>
+<hr>
+<table>
+  <thead>
+    <tr>
+      <% if @searchstring.empty? %>
+        <th>Search Results</th>
+      <% else %>
+        <th>Search results for:<br>
+        <% for i in 0...@searchstring.length %>
+          <% if i%2==0 %>
+            <%= @searchstring[i] %>
+          <% else %>
+            <span class='notation'><%= @searchstring[i] %></span>
+          <% end %>
+        <% end %>
+        </th>
+      <% end %>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @songs.each do |song| %>
+      <tr>
+        <td><%= link_to song.title, song %></td>
+      </tr>
+    <% end %>
+    <% if @songs.empty? %>
+      <tr>
+        <td>No songs found matching search criteria</td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'Back to Index', songs_path %>
+
+<script>
+  $(document).ready(function() {
+    // *** Mapped keys ***
+    $('.rhythm.notation').keyboard(NotationKeyboard.options).addTyping({showTyping : true});
+    
+    // *** Mapped keys ***
+    $('.tones').not('.ui-keyboard-input').keyboard(ToneKeyboard.options).addTyping({showTyping : true});
+  });
+  
+  $( ".field-select" ).change(function() {
+    var new_dt = $(this).find(":selected").attr('data-type');
+    var edit = $(this).parent().next().children();
+    var old_dt = "text";
+    if (edit.hasClass("rhythm notation")) {
+      old_dt = "rhythm";
+    } else if (edit.hasClass("tones")) {
+      old_dt = "tone";
+    }
+    if (new_dt != old_dt) {
+      if (old_dt == "rhythm") {
+        edit.removeClass("rhythm notation")
+      } else if (old_dt == "tone") {
+        edit.removeClass("tones")
+      }
+      if (old_dt != "text") {
+        keyboard = edit.keyboard().getkeyboard();
+        keyboard.destroy();
+      }
+      if (new_dt == "rhythm") {
+        edit.addClass("rhythm notation")
+        edit.keyboard(NotationKeyboard.options).addTyping({showTyping : true});
+      } else if (new_dt == "tone") {
+        edit.addClass("tones")
+        edit.keyboard(ToneKeyboard.options).addTyping({showTyping : true});
+      }
+    }
+  });
+</script>
