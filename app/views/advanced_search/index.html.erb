@@ -43,7 +43,7 @@
         <td><%= link_to song.title, song %></td>
       </tr>
     <% end %>
-    <% if @songs.empty? %>
+    <% if @songs.empty? && !@searchstring.empty? %>
       <tr>
         <td>No songs found matching search criteria</td>
       </tr>

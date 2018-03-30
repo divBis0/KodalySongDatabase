@@ -18,7 +18,8 @@
     </ul>
     <ul class="rmenu">
     <% if user_signed_in? %>
-    <li><%= link_to 'Songs/Search', songs_path %></li> |
+    <li><%= link_to 'Songs', songs_path %></li> |
+    <li><%= link_to 'Advanced Search', advanced_search_path %></li> |
     <li><%= link_to 'Sources', sources_path %></li> |
     <%= render 'devise/menu/registration_items' %> |
     <% end %>

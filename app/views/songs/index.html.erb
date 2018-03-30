@@ -3,7 +3,7 @@
 <%= search_form_for @q do |f| %>
   <%= f.label :title_cont %>
   <%= f.search_field :title_cont %>
-  <%= f.submit %>
+  <%= f.submit %>  <%= link_to 'Advanced Search', advanced_search_path %>
 <% end %>
 <hr>
 <table>
