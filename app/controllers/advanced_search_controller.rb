@@ -123,11 +123,11 @@ class AdvancedSearchController < ApplicationController
       when 4, 8
         qstr = 'concepts.name LIKE ?'
       when 5, 9
-        qstr = 'concepts.prepare = "t" AND concepts.name LIKE ?'
+        qstr = 'concepts.prepare = TRUE AND concepts.name LIKE ?'
       when 6, 10
-        qstr = 'concepts.present = "t" AND concepts.name LIKE ?'
+        qstr = 'concepts.present = TRUE AND concepts.name LIKE ?'
       when 7, 11
-        qstr = 'concepts.practice = "t" AND concepts.name LIKE ?'
+        qstr = 'concepts.practice = TRUE AND concepts.name LIKE ?'
       when 12...(@searchfields.length-1)
         # Deduce field_name for field
         fname = @searchfields.detect{|x| x[1]==field_ix}[0]
