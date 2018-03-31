@@ -79,37 +79,37 @@ class AdvancedSearchController < ApplicationController
     end
     def validate_params(params)
       @aq = {}
-      @dt = {}
+      @sf = {}
       if valid_query(params[:f1].to_i, params[:q1])
         @aq[:f1] = params[:f1].to_i
         @aq[:q1] = params[:q1]
-        @dt[:f1] = lkup(@aq[:f1])[2]['data-type']
+        @sf[:f1] = lkup(@aq[:f1])
       else
-        @dt[:f1] = @searchfields[0][2]['data-type']
+        @sf[:f1] = @searchfields[0]
       end
       if valid_query(params[:f2].to_i, params[:q2])
         @aq[:b12]= params[:b12].to_i
         @aq[:f2] = params[:f2].to_i
         @aq[:q2] = params[:q2]
-        @dt[:f2] = lkup(@aq[:f2])[2]['data-type']
+        @sf[:f2] = lkup(@aq[:f2])
       else
-        @dt[:f2] = @searchfields[0][2]['data-type']
+        @sf[:f2] = @searchfields[0]
       end
       if valid_query(params[:f3].to_i, params[:q3])
         @aq[:b23]= params[:b23].to_i
         @aq[:f3] = params[:f3].to_i
         @aq[:q3] = params[:q3]
-        @dt[:f3] = lkup(@aq[:f3])[2]['data-type']
+        @sf[:f3] = lkup(@aq[:f3])
       else
-        @dt[:f3] = @searchfields[0][2]['data-type']
+        @sf[:f3] = @searchfields[0]
       end
       if valid_query(params[:f4].to_i, params[:q4])
         @aq[:b34]= params[:b34].to_i
         @aq[:f4] = params[:f4].to_i
         @aq[:q4] = params[:q4]
-        @dt[:f4] = lkup(@aq[:f4])[2]['data-type']
+        @sf[:f4] = lkup(@aq[:f4])
       else
-        @dt[:f4] = @searchfields[0][2]['data-type']
+        @sf[:f4] = @searchfields[0]
       end
     end
     def do_query(field_ix,field_val)

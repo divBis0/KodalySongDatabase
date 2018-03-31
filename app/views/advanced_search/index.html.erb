@@ -18,29 +18,52 @@
   </div>
 <% end %>
 <hr>
+<% if @searchstring.empty? %>
+  Search Results
+<% else %>
+  Search results for:<br>
+  <% for i in 0...@searchstring.length %>
+    <% if i%2==0 %>
+      <%= @searchstring[i] %>
+    <% else %>
+      <span class='notation'><%= @searchstring[i] %></span>
+    <% end %>
+  <% end %>
+<% end %>
 <table>
   <thead>
     <tr>
-      <% if @searchstring.empty? %>
-        <th>Search Results</th>
-      <% else %>
-        <th>Search results for:<br>
-        <% for i in 0...@searchstring.length %>
-          <% if i%2==0 %>
-            <%= @searchstring[i] %>
-          <% else %>
-            <span class='notation'><%= @searchstring[i] %></span>
-          <% end %>
-        <% end %>
-        </th>
+      <th>Song Title</th>
+      <% if (@aq.key? :f1) && (@aq[:f1] != 1) %>
+        <th><%= @sf[:f1][0] %></th>
+      <% end %>
+      <% if (@aq.key? :f2) && (@aq[:f2] != 1) %>
+        <th><%= @sf[:f2][0] %></th>
+      <% end %>
+      <% if (@aq.key? :f3) && (@aq[:f3] != 1) %>
+        <th><%= @sf[:f3][0] %></th>
+      <% end %>
+      <% if (@aq.key? :f4) && (@aq[:f4] != 1) %>
+        <th><%= @sf[:f4][0] %></th>
       <% end %>
     </tr>
   </thead>
-
   <tbody>
     <% @songs.each do |song| %>
       <tr>
         <td><%= link_to song.title, song %></td>
+        <% if (@aq.key? :f1) && (@aq[:f1] != 1) %>
+          <td><%= render("display_fields", :s =>  song, :f => :f1) %></td>
+        <% end %>
+        <% if (@aq.key? :f2) && (@aq[:f2] != 1) %>
+          <td><%= render("display_fields", :s =>  song, :f => :f2) %></td>
+        <% end %>
+        <% if (@aq.key? :f3) && (@aq[:f3] != 1) %>
+          <td><%= render("display_fields", :s =>  song, :f => :f3) %></td>
+        <% end %>
+        <% if (@aq.key? :f4) && (@aq[:f4] != 1) %>
+          <td><%= render("display_fields", :s =>  song, :f => :f4) %></td>
+        <% end %>
       </tr>
     <% end %>
     <% if @songs.empty? && !@searchstring.empty? %>

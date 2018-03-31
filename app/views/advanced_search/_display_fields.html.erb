@@ -1,0 +1,91 @@
+<% pp("in df with:") %>
+<% pp(s) %>
+<% pp(f) %>
+<% pp(@aq[f]) %>
+<% pp("ok?") %>
+<% case @aq[f]
+   when 2 %>
+  <% if s.source.present? %>
+    <%= s.source[:title] %>
+  <% end %>
+<% when 3 %>
+  <% if s.source.present? %>
+    <%= s.source[:author] %>
+  <% end %>
+<% when 4, 8 %>
+  <% for i in 0...s.concepts.length %>
+    <% c = s.concepts[i] %>
+    <% if i > 0 %>
+      <% str = ", "+c.name %>
+    <% else %>
+      <% str = c.name %>
+    <% end %>
+    <% if c.rhythm? %>
+      <span class="notation"><%= str %></span>
+    <% else %>
+      <%= str %>
+    <% end %>
+  <% end %>
+<% when 5,9 %>
+  <% for i in 0...s.concepts.length %>
+    <% c = s.concepts[i] %>
+    <% unless c.prepare? %>
+      <% next %>
+    <% end %>
+    <% if i > 0 %>
+      <% str = ", "+c.name %>
+    <% else %>
+      <% str = c.name %>
+    <% end %>
+    <% if c.rhythm? %>
+      <span class="notation"><%= str %></span>
+    <% else %>
+      <%= str %>
+    <% end %>
+  <% end %>
+<% when 6,10 %>
+  <% for i in 0...s.concepts.length %>
+    <% c = s.concepts[i] %>
+    <% unless c.present? %>
+      <% next %>
+    <% end %>
+    <% if i > 0 %>
+      <% str = ", "+c.name %>
+    <% else %>
+      <% str = c.name %>
+    <% end %>
+    <% if c.rhythm? %>
+      <span class="notation"><%= str %></span>
+    <% else %>
+      <%= str %>
+    <% end %>
+  <% end %>
+<% when 7,11 %>
+  <% for i in 0...s.concepts.length %>
+    <% c = s.concepts[i] %>
+    <% unless c.practice? %>
+      <% next %>
+    <% end %>
+    <% if i > 0 %>
+      <% str = ", "+c.name %>
+    <% else %>
+      <% str = c.name %>
+    <% end %>
+    <% if c.rhythm? %>
+      <span class="notation"><%= str %></span>
+    <% else %>
+      <%= str %>
+    <% end %>
+  <% end %>
+<% when 12...(@searchfields.length-1) %>
+  <% datum = s.field_entries.select{|d| d.field.name == @sf[f][0]}.first %>
+  <% unless datum.nil? %>
+    <% if datum.field.display_type == "rhythm" %>
+      <span class="notation"><%= datum.data %></span>
+    <% else %>
+      <%= datum.data %>
+    <% end %>
+  <% end %>
+<% when @searchfields.length-1 %>
+  <% s.comments %>
+<% end %>
