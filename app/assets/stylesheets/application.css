@@ -121,3 +121,23 @@ div.header a:visited {
 #song_concepts_table td {
   text-align: center;
 }
+
+.has-tip.no-special-cursor {
+  cursor: auto;
+}
+
+@media print {
+  thead {
+    background-color: #f8f8f8 !important;
+    -webkit-print-color-adjust: exact;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f1f1f1 !important;
+    -webkit-print-color-adjust: exact;
+  }
+  
+  .has-tip {
+    border-bottom: none;
+  }
+}

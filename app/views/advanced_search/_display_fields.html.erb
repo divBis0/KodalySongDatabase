@@ -1,10 +1,7 @@
-<% pp("in df with:") %>
-<% pp(s) %>
-<% pp(f) %>
-<% pp(@aq[f]) %>
-<% pp("ok?") %>
-<% case @aq[f]
-   when 2 %>
+<% case f[1]
+   when 1 %>
+  <%= s.title %>
+<% when 2 %>
   <% if s.source.present? %>
     <%= s.source[:title] %>
   <% end %>
@@ -78,7 +75,7 @@
     <% end %>
   <% end %>
 <% when 12...(@searchfields.length-1) %>
-  <% datum = s.field_entries.select{|d| d.field.name == @sf[f][0]}.first %>
+  <% datum = s.field_entries.select{|d| d.field.name == f[0]}.first %>
   <% unless datum.nil? %>
     <% if datum.field.display_type == "rhythm" %>
       <span class="notation"><%= datum.data %></span>

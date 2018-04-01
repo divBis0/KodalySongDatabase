@@ -1,5 +1,5 @@
 class AdvancedSearchController < ApplicationController
-  before_action :set_search_fields, only: [:index]
+  before_action :set_search_fields, only: [:index, :list]
   before_action :authenticate_user!
   
   # GET /advanced_search
@@ -57,6 +57,11 @@ class AdvancedSearchController < ApplicationController
     end
     # Collapse ANDs
     @searchstring = s2.join(" AND ").split("#RhYtHm#")
+    # If everything is an OR, we might end up with unnecessary parentheses
+    if /^\([^\(\)]*\)$/.match(@searchstring.join(' '))
+      @searchstring[0] = @searchstring[0][1..-1]
+      @searchstring[-1] = @searchstring[-1][0..-2]
+    end
     for i in 0...q2.length
       if i==0
         @songs = q2[0]
@@ -68,6 +73,12 @@ class AdvancedSearchController < ApplicationController
       @songs.uniq!
       @songs.sort_by!{|obj| obj.title}
     end
+  end
+  def list
+    # TODO: add more parameter/query validation
+    @title = params[:title].split('\n')
+    @songs = current_user.songs.where(id: params[:songs].split(',').map(&:to_i))
+    @fields = params[:fields].map{|f| lkup(f.to_i)}
   end
   
   private
@@ -185,5 +196,7 @@ class AdvancedSearchController < ApplicationController
       end
       @searchfields.push(['Comments',i+1,{'data-type' => 'text'}])
       @searchbinaryops = [['And',1],['Or',2],['And Not',3],['Or Not',4]]
+      @default_index_list = @searchfields.each_index.select{|i|
+          ['Title','Source Title','Page #','Grade Levels'].include? @searchfields[i][0]}.sort
     end
 end

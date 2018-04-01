@@ -1,0 +1,30 @@
+<span data-tooltip aria-haspopup="true" class="has-tip no-special-cursor" data-disable-hover="false" tabindex="1" title="This text is editable">
+  <h5 contenteditable="true">Index:
+    <% for i in 0...@title.length %>
+      <% if i%2==0 %>
+        <%= @title[i] %>
+      <% else %>
+        <span class='notation'><%= @title[i] %></span>
+      <% end %>
+    <% end %>
+  </h5>
+</span>
+<table>
+<table>
+  <thead>
+    <tr>
+      <% @fields.each do |f| %>
+        <th><%= f[0] %></th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @songs.each do |song| %>
+      <tr>
+        <% @fields.each do |f| %>
+          <td><%= render("display_fields", :s =>  song, :f => f) %></td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -18,18 +18,20 @@
   </div>
 <% end %>
 <hr>
-<% if @searchstring.empty? %>
-  Search Results
-<% else %>
-  Search results for:<br>
-  <% for i in 0...@searchstring.length %>
-    <% if i%2==0 %>
-      <%= @searchstring[i] %>
-    <% else %>
-      <span class='notation'><%= @searchstring[i] %></span>
+<h6>
+  <% if @searchstring.empty? %>
+    Search Results
+  <% else %>
+    Search results for: 
+    <% for i in 0...@searchstring.length %>
+      <% if i%2==0 %>
+        <%= @searchstring[i] %>
+      <% else %>
+        <span class='notation'><%= @searchstring[i] %></span>
+      <% end %>
     <% end %>
   <% end %>
-<% end %>
+</h6>
 <table>
   <thead>
     <tr>
@@ -53,16 +55,16 @@
       <tr>
         <td><%= link_to song.title, song %></td>
         <% if (@aq.key? :f1) && (@aq[:f1] != 1) %>
-          <td><%= render("display_fields", :s =>  song, :f => :f1) %></td>
+          <td><%= render("display_fields", :s =>  song, :f => @sf[:f1]) %></td>
         <% end %>
         <% if (@aq.key? :f2) && (@aq[:f2] != 1) %>
-          <td><%= render("display_fields", :s =>  song, :f => :f2) %></td>
+          <td><%= render("display_fields", :s =>  song, :f => @sf[:f2]) %></td>
         <% end %>
         <% if (@aq.key? :f3) && (@aq[:f3] != 1) %>
-          <td><%= render("display_fields", :s =>  song, :f => :f3) %></td>
+          <td><%= render("display_fields", :s =>  song, :f => @sf[:f3]) %></td>
         <% end %>
         <% if (@aq.key? :f4) && (@aq[:f4] != 1) %>
-          <td><%= render("display_fields", :s =>  song, :f => :f4) %></td>
+          <td><%= render("display_fields", :s =>  song, :f => @sf[:f4]) %></td>
         <% end %>
       </tr>
     <% end %>
@@ -73,7 +75,15 @@
     <% end %>
   </tbody>
 </table>
-
+<hr>
+<%= form_tag("/advanced_search/list", method: "get") do %>
+  <h6>Make Index Page From Results</h6>
+  <%= label_tag(:fields, "Select fields to display:") %>
+  <%= select_tag(:fields, options_for_select(@searchfields[1..-1], @default_index_list), {:multiple=>true, :size=>"8"}) %>
+  <%= hidden_field_tag(:songs, @songs.map{|s| s.id}.join(',')) %>
+  <%= hidden_field_tag(:title, @searchstring.join('\n')) %>
+  <%= submit_tag("Go") %>
+<% end %>
 <br>
 
 <%= link_to 'Back to Index', songs_path %>

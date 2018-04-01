@@ -6,13 +6,13 @@
 
     <title><%= content_for?(:title) ? yield(:title) : "Kodaly Song Database" %></title>
 
-    <%= stylesheet_link_tag    "application" %>
+    <%= stylesheet_link_tag    "application", media: "all" %>
     <%= javascript_include_tag "application", 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
   </head>
 
   <body>
-    <div class="header">
+    <div class="header hide-for-print">
     <ul class="lmenu">
     <li><strong><%= link_to 'Kodály Song Database', root_path %></strong></li>
     </ul>
@@ -34,7 +34,7 @@
     <%= yield %>
     </div>
     <% if current_user %>
-      <div class="footer">
+      <div class="footer hide-for-print">
         <%= mail_to ENV["GMAIL_USERNAME"] do %>
           <strong>Questions? Issues? Suggestions? Email them all to:</strong> <span><%= ENV["GMAIL_USERNAME"] %></span>
        <% end %>

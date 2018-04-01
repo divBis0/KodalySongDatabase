@@ -47,7 +47,7 @@ GEM
     bcrypt (3.1.11)
     bindex (0.5.0)
     builder (3.2.3)
-    byebug (10.0.1)
+    byebug (10.0.2)
     cloudinary (1.9.1)
       aws_cf_signer
       rest-client
