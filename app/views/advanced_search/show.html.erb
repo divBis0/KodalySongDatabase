@@ -1,0 +1,6 @@
+<% @songs.each do |s| %>
+  <div style="page-break-inside: avoid; page-break-after: always">
+  <%= render :partial => "songs/song", :locals => {:song => s, :categories => @categories} %>
+  <hr class="hide-for-print">
+  </div>
+<% end %>

@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   resources :songs
   get 'advanced_search' => 'advanced_search#index'
   get 'advanced_search/list' => 'advanced_search#list'
+  get 'advanced_search/show' => 'advanced_search#show'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
   
   root 'site#index'

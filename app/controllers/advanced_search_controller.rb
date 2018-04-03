@@ -80,6 +80,11 @@ class AdvancedSearchController < ApplicationController
     @songs = current_user.songs.where(id: params[:songs].split(',').map(&:to_i))
     @fields = params[:fields].map{|f| lkup(f.to_i)}
   end
+  def show
+    # TODO: add more parameter/query validation
+    @songs = current_user.songs.where(id: params[:songs].split(',').map(&:to_i))
+    @categories = FieldCategory.order(:order)
+  end
   
   private
     def lkup(field_ix)

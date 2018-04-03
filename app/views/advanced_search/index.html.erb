@@ -10,7 +10,7 @@
         <%= render("search_fields", :b => :b34, :f => :f4, :q => :q4) %>
       </tbody>
     </table>
-    <%= submit_tag("Search") %>
+    <%= submit_tag("Search",{:class=>"button"}) %>
 
     <%#= link_to_add_search_fields(f, "#search_form_table", @aq, :text) %>
     <%#= link_to_add_search_fields(f, "#search_form_table", @aq, :rhythm) %>
@@ -75,6 +75,10 @@
     <% end %>
   </tbody>
 </table>
+<%= form_tag("/advanced_search/show", method: "get") do %>
+  <%= hidden_field_tag(:songs, @songs.map{|s| s.id}.join(',')) %>
+  <%= submit_tag("Show Songs in Full",{:class=>"button"}) %>
+<% end %>
 <hr>
 <%= form_tag("/advanced_search/list", method: "get") do %>
   <h6>Make Index Page From Results</h6>
@@ -82,7 +86,7 @@
   <%= select_tag(:fields, options_for_select(@searchfields[1..-1], @default_index_list), {:multiple=>true, :size=>"8"}) %>
   <%= hidden_field_tag(:songs, @songs.map{|s| s.id}.join(',')) %>
   <%= hidden_field_tag(:title, @searchstring.join('\n')) %>
-  <%= submit_tag("Go") %>
+  <%= submit_tag("Go",{:class=>"button"}) %>
 <% end %>
 <br>
 

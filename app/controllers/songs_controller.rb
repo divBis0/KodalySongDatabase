@@ -116,7 +116,7 @@ class SongsController < ApplicationController
     end
     
     def set_categories
-        @categories = FieldCategory.order(:order)
+      @categories = FieldCategory.order(:order)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

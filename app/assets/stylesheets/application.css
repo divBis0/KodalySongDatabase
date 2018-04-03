@@ -140,4 +140,19 @@ div.header a:visited {
   .has-tip {
     border-bottom: none;
   }
+  
+  td, body, p {
+    font-size: 10px;
+    line-height: 4px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+  
+  h1 {
+    font-size: 1.5rem;
+  }
+  
+  h4, h5 {
+    font-size: 1rem;
+  }
 }
