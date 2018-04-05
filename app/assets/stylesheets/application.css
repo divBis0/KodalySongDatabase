@@ -126,6 +126,21 @@ div.header a:visited {
   cursor: auto;
 }
 
+table.set {
+  margin-bottom: 0px;
+  table-layout: fixed;
+}
+
+table.set th {
+  text-align: left;
+}
+
+table.set td {
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-left-color: #F1F1F1;
+}
+
 @media print {
   thead {
     background-color: #f8f8f8 !important;

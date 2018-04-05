@@ -52,13 +52,27 @@
       <% end %>
       <% song.field_entries.select{|d| d.field.field_category == cat}.each do |datum| %>
         <tr>
-          <td><%= datum.field.name %></td>
-          <% if datum.field.display_type == "rhythm" %>
-            <td class="notation">
+          <% if datum.field.display_type == "string_set" or datum.field.display_type == "rhythm_set" %>
+            <td><table class="set"><tr>
+              <th><%= datum.field.name %></th>
+              <% datum.data.split(/;\s*/).each do |d| %>
+                <% if datum.field.display_type == "rhythm_set" %>
+                  <td class="notation">
+                <% else %>
+                  <td>
+                <% end %>
+                <%= d %></td>
+              <% end %>
+            </tr></table></td>
           <% else %>
-            <td>
+            <th><%= datum.field.name %></th>
+            <% if datum.field.display_type == "rhythm" %>
+              <td class="notation">
+            <% else %>
+              <td>
+            <% end %>
+            <%= datum.data %></td>
           <% end %>
-          <%= datum.data %></td>
         </tr>
       <% end %>
       </tbody>

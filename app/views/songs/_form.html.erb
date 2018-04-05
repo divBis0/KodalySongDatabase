@@ -201,4 +201,28 @@
       remove_concept($(this));
     });
   });
+  
+  $(document).ready(function() {
+    $("button.add-string-item").click(function() {
+      $(this).parent().before("<td><input type='text' id='' value=''></td>");
+    });
+  });
+  
+  $(document).ready(function() {
+    $("button.add-rhythm-item").click(function() {
+      $(this).parent().before("<td><input type='text' id='' value='' class='rhythm notation'></td>");
+      $(this).parent().prev().children().keyboard(NotationKeyboard.options).addTyping({showTyping : true});
+    });
+  });
+  
+  $("form").submit(function() {
+    $(this).find("div.string_set, div.rhythm_set").each(function() {
+      var str = $(this).find("input[type='text']").filter(function() {
+        return !!this.value;
+      }).map(function() {
+        return this.value;
+      }).get().join(';');
+      $(this).children("input[type='hidden']").val(str);
+    });
+  });
 </script>
