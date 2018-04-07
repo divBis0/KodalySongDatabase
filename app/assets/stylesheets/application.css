@@ -129,6 +129,7 @@ div.header a:visited {
 table.set {
   margin-bottom: 0px;
   table-layout: fixed;
+  width: auto;
 }
 
 table.set th {
@@ -139,6 +140,7 @@ table.set td {
   border-left-style: solid;
   border-left-width: 1px;
   border-left-color: #F1F1F1;
+  white-space: nowrap;
 }
 
 @media print {
