@@ -16,6 +16,8 @@
 <table>
 <% @field_entries.each do |datum| %>
 <tr>
+  <th><%= datum.song.user.email %></th>
+  <td><%= datum.id %></td>
   <% if @field.display_type == "string_set" or @field.display_type == "rhythm_set" %>
     <td><table class="set"><tr>
       <% datum.data.split(/;\s*/).each do |d| %>
