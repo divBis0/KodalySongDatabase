@@ -1,7 +1,8 @@
 class FieldsController < ApplicationController
-  before_action :set_field, only: [:show, :edit, :update, :destroy]
   before_action :authenticate_user!
   before_action :authenticate_admin!
+  before_action :set_field, only: [:show, :edit, :update, :destroy]
+  before_action :set_entries, only: [:show]
 
   # GET /fields
   # GET /fields.json
@@ -69,6 +70,10 @@ class FieldsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
     def set_field
       @field = Field.find(params[:id])
+    end
+    
+    def set_entries
+      @field_entries = FieldEntry.where(field_id: @field.id)
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.

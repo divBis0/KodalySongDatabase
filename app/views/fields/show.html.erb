@@ -13,5 +13,32 @@
   <%= @field.field_category.name %>
 </p>
 
+<table>
+<% @field_entries.each do |datum| %>
+<tr>
+  <% if @field.display_type == "string_set" or @field.display_type == "rhythm_set" %>
+    <td><table class="set"><tr>
+      <% datum.data.split(/;\s*/).each do |d| %>
+        <% if @field.display_type == "rhythm_set" %>
+          <td class="notation">
+        <% else %>
+          <td>
+        <% end %>
+        <%= d %></td>
+      <% end %>
+    </tr></table></td>
+  <% else %>
+    <% if @field.display_type == "rhythm" %>
+      <td class="notation">
+    <% else %>
+      <td>
+    <% end %>
+    <%= datum.data %></td>
+  <% end %>
+</tr>
+<% end %>
+</table>
+
+
 <%= link_to 'Edit', edit_field_path(@field) %> |
 <%= link_to 'Back', fields_path %>
