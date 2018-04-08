@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :timeoutable and :omniauthable,  :trackable,
   devise  :invitable, :database_authenticatable, :registerable,
           :recoverable, :rememberable, :validatable, :lockable,
-          :invite_for => 2.weeks
+          :invite_for => 4.weeks
   has_many :songs
   has_many :sources
 end

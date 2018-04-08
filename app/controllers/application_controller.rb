@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   
   protected
   def authenticate_inviter!
-    unless current_user.admin?
+    unless current_user.admin? or current_user.manager?
       redirect_to root_url, :alert => "Access Denied"
     end
     super
