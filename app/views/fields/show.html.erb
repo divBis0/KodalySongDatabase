@@ -29,6 +29,8 @@
         <%= d %></td>
       <% end %>
     </tr></table></td>
+  <% elsif datum.field.display_type == "text" %>
+    <td><pre><%= datum.data %></pre></td>
   <% else %>
     <% if @field.display_type == "rhythm" %>
       <td class="notation">

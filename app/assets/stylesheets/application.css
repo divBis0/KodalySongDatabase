@@ -150,6 +150,13 @@ table.set td:first-child {
 th > h5 {
   margin-bottom: 0
 }
+  
+td > pre {
+  line-height: 1rem;
+  font-family: verdana, arial, helvetica, sans-serif;
+  border: none;
+  background-color: inherit;
+}
 
 @media print {
   thead {
@@ -192,11 +199,5 @@ th > h5 {
     font-size: 1.3em;
     padding-top: 1.3em;
     height: 0em;
-  }
-  
-  td > pre {
-    line-height: 1rem;
-    font-family: verdana, arial, helvetica, sans-serif;
-    border: none;
   }
 }
