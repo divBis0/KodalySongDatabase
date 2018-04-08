@@ -156,6 +156,7 @@ td > pre {
   font-family: verdana, arial, helvetica, sans-serif;
   border: none;
   background-color: inherit;
+  white-space: pre-wrap;
 }
 
 @media print {
