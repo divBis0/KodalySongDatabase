@@ -143,6 +143,14 @@ table.set td {
   white-space: nowrap;
 }
 
+table.set td:first-child {
+  border-left-style: none;
+}
+
+th > h5 {
+  margin-bottom: 0
+}
+
 @media print {
   thead {
     background-color: #f8f8f8 !important;
@@ -184,5 +192,11 @@ table.set td {
     font-size: 1.3em;
     padding-top: 1.3em;
     height: 0em;
+  }
+  
+  td > pre {
+    line-height: 1rem;
+    font-family: verdana, arial, helvetica, sans-serif;
+    border: none;
   }
 }

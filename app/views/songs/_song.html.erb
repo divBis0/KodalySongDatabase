@@ -8,7 +8,7 @@
 <% categories.each do |cat| %>
   <thead>
   <tr>
-    <th colspan="2"><%= cat.name %></th>
+    <th colspan="2"><h5><%= cat.name %></h5></th>
   </tr>
   </thead>
   <tbody>
@@ -17,14 +17,14 @@
           <% [:title, :author].each do |name| %>
             <% if song.source[name].present? %>
               <tr>
-                <td><%= name.to_s.humanize %></td>
+                <th><%= name.to_s.humanize %></th>
                 <td><%= song.source[name] %></td>
               </tr>
             <% end %>
           <% end %>
         <% end %>
       <% elsif (cat.name == "Pedagogy") && !(song.concepts.empty?) %>
-        <tr><td>
+        <tr><td colspan="2">
           <table id="song_concepts_table" class="show">
             <tbody>
               <tr>
@@ -52,9 +52,9 @@
       <% end %>
       <% song.field_entries.select{|d| d.field.field_category == cat}.each do |datum| %>
         <tr>
+          <th><%= datum.field.name %></th>
           <% if datum.field.display_type == "string_set" or datum.field.display_type == "rhythm_set" %>
             <td><table class="set"><tr>
-              <th><%= datum.field.name %></th>
               <% datum.data.split(/;\s*/).each do |d| %>
                 <% if datum.field.display_type == "rhythm_set" %>
                   <td class="notation">
@@ -64,8 +64,9 @@
                 <%= d %></td>
               <% end %>
             </tr></table></td>
+          <% elsif datum.field.display_type == "text" %>
+            <td><pre><%= datum.data %></pre></td>
           <% else %>
-            <th><%= datum.field.name %></th>
             <% if datum.field.display_type == "rhythm" %>
               <td class="notation">
             <% else %>
