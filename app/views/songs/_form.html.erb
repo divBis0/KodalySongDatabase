@@ -82,7 +82,7 @@
             <%= link_to_add_concept_fields(f, "#song_concepts_table", @song, true) %>
           </div>
         <% end %>
-        <%= f.fields_for :field_entries, @song.field_entries.select { |fe| fe.field_category == cat } do |ff| %>
+        <%= f.fields_for :field_entries, @song.field_entries.select { |fe| fe.field_category == cat }.sort_by(&:field_id) do |ff| %>
           <div>
             <%= ff.input :id, :as=>:hidden %>
             <%= ff.input :field_id, :as=>:hidden %>

@@ -136,15 +136,36 @@ table.set th {
   text-align: left;
 }
 
-table.set td {
-  border-left-style: solid;
-  border-left-width: 1px;
-  border-left-color: #F1F1F1;
+td, th {
   white-space: nowrap;
 }
 
-table.set td:first-child {
+table.set tr:nth-child(even) td {
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-left-color: #FFFFFF;
+}
+
+table.set tr:nth-child(odd) td {
+  border-left-style: solid;
+  border-left-width: 1px;
+  border-left-color: #F1F1F1;
+}
+
+table.set tr:nth-child(even) td:first-child {
   border-left-style: none;
+}
+
+table.set tr:nth-child(odd) td:first-child {
+  border-left-style: none;
+}
+
+td.form-set {
+  text-align: center;
+}
+
+td.empty {
+  width: 100%;
 }
 
 th > h5 {
@@ -176,9 +197,13 @@ td > pre {
   
   td, body, p {
     font-size: 10px;
-    line-height: 4px;
     margin-top: 0px;
     margin-bottom: 0px;
+  }
+  
+  table.show-song td {
+    padding-top: 4px;
+    padding-bottom: 4px;
   }
   
   h1 {

@@ -4,11 +4,11 @@
   <%= cl_image_tag(song.image_path, :crop => :fill, :width => 800, :class=>"song-image") %>
 <% end %>
 
-<table>
+<table class="show-song">
 <% categories.each do |cat| %>
   <thead>
   <tr>
-    <th colspan="2"><h5><%= cat.name %></h5></th>
+    <th colspan="100"><h5><%= cat.name %></h5></th>
   </tr>
   </thead>
   <tbody>
@@ -18,13 +18,13 @@
             <% if song.source[name].present? %>
               <tr>
                 <th><%= name.to_s.humanize %></th>
-                <td><%= song.source[name] %></td>
+                <td colspan="99"><%= song.source[name] %></td>
               </tr>
             <% end %>
           <% end %>
         <% end %>
       <% elsif (cat.name == "Pedagogy") && !(song.concepts.empty?) %>
-        <tr><td colspan="2">
+        <tr><td colspan="99">
           <table id="song_concepts_table" class="show">
             <tbody>
               <tr>
@@ -50,27 +50,40 @@
           </table>
         </td></tr>
       <% end %>
-      <% song.field_entries.select{|d| d.field.field_category == cat}.each do |datum| %>
+      <% song.field_entries.select{|d| d.field.field_category == cat}.sort_by(&:field_id).each do |datum| %>
         <tr>
           <th><%= datum.field.name %></th>
           <% if datum.field.display_type == "string_set" or datum.field.display_type == "rhythm_set" %>
-            <td><table class="set"><tr>
-              <% datum.data.split(/;\s*/).each do |d| %>
+            <% subdatums = datum.data.split(/;\s*/) %>
+            <% if cat.name == "Form" %>
+              <% subdatums.each do |d| %>
                 <% if datum.field.display_type == "rhythm_set" %>
-                  <td class="notation">
+                  <td class="notation form-set">
                 <% else %>
-                  <td>
+                  <td class="form-set">
                 <% end %>
                 <%= d %></td>
               <% end %>
-            </tr></table></td>
+              <td class="empty" colspan="<%= 99-subdatums.length %>"></td>
+            <% else %>
+              <td colspan="99"><table class="set"><tr>
+                <% subdatums.each do |d| %>
+                  <% if datum.field.display_type == "rhythm_set" %>
+                    <td class="notation">
+                  <% else %>
+                    <td>
+                  <% end %>
+                  <%= d %></td>
+                <% end %>
+              </tr></table></td>
+            <% end %>
           <% elsif datum.field.display_type == "text" %>
-            <td><pre><%= datum.data %></pre></td>
+            <td colspan="99"><pre><%= datum.data %></pre></td>
           <% else %>
             <% if datum.field.display_type == "rhythm" %>
-              <td class="notation">
+              <td  colspan="99"class="notation">
             <% else %>
-              <td>
+              <td colspan="99">
             <% end %>
             <%= datum.data %></td>
           <% end %>
