@@ -1,5 +1,7 @@
 <%= render("song", :song => @song, :categories => @categories) %>
 
+<div class="hide-for-print">
 <%= link_to 'Edit', edit_song_path(@song) %> |
 <%= link_to 'Create Another', new_song_path %> |
 <%= link_to 'Back', songs_path %>
+</div>
