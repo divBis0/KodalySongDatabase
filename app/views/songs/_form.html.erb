@@ -129,6 +129,9 @@
         },
         fail: function (e, data) {
           $(".status").text("Upload failed");
+          console.log("FAIL");
+          console.log(JSON.stringify(e));
+          console.log(JSON.stringify(data));
         },
         replaceFileInput:false
       })
