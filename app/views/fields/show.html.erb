@@ -13,6 +13,13 @@
   <%= @field.field_category.name %>
 </p>
 
+<% if @field.display_type == "string_selection" %>
+  <p>
+    <strong>Options:</strong>
+    <%= @field.options %>
+  </p>
+<% end %>
+
 <table>
 <% @field_entries.each do |datum| %>
 <tr>

@@ -5,6 +5,8 @@
     <%= f.input :name %>
     <%= f.select(:display_type, Field.display_types.map { |k,v| [k.humanize, k]}) %>
     <%= f.collection_select(:field_category_id, FieldCategory.all, :id, :name) %>
+    <%= f.input :options %>
+    Please use commas to separate elements for sets
   </div>
 
   <div class="form-actions">
