@@ -126,7 +126,7 @@
         maxFileSize: 1000000, // 1MB
         //dropZone: "#direct_upload",
         start: function (e) {
-          $(".status").text("Starting upload..."+JSON.stringify(e));
+          $(".status").text("Starting upload...");
         },
         progress: function (e, data) {
           $(".status").text("Uploading... " + Math.round((data.loaded * 100.0) / data.total) + "%");
@@ -140,7 +140,7 @@
         replaceFileInput:false
       })
       .off("cloudinarydone").on("cloudinarydone", function (e, data) {
-        $(".status").text("Done: "+JSON.stringify(e)+", "+JSON.stringify(data));
+        $(".status").text("");
         var preview = $(".preview").html('');
         $.cloudinary.image(data.result.public_id, {
           format: data.result.format, crop: "fill", width: "800"
