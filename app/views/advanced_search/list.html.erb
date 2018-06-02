@@ -27,4 +27,11 @@
       </tr>
     <% end %>
   </tbody>
+<% unless current_user.display_name.empty? %>
+  <tfoot>
+  <tr class="blank-bg">
+    <td colspan="100">From the song collection of <%= current_user.display_name %></td>
+  <tr>
+  </tfoot>
+<% end %>
 </table>
