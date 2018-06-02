@@ -14,7 +14,7 @@
   <tbody>
       <% if cat.name == "Source" %>
         <% if song.source.present? %>
-          <% [:title, :author].each do |name| %>
+          <% [:title, :author, :publisher, :city, :copyright_year, :web_site].each do |name| %>
             <% if song.source[name].present? %>
               <tr>
                 <th><%= name.to_s.humanize %></th>
