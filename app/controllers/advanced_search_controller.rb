@@ -64,9 +64,9 @@ class AdvancedSearchController < ApplicationController
     end
     for i in 0...q2.length
       if i==0
-        @songs = q2[0]
+        @songs = q2[0].to_a
       else
-        @songs &= q2[i]
+        @songs &= q2[i].to_a
       end
     end
     if @songs.length > 1
