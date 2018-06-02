@@ -1,10 +1,16 @@
-<h1><%= song.title %></h1>
-
-<% if song.image_path.present? %>
-  <%= cl_image_tag(song.image_path, :crop => :fill, :width => 800, :class=>"song-image") %>
-<% end %>
-
 <table class="show-song">
+  <thead class="song-title">
+    <tr>
+      <th colspan="100"><h1><%= song.title %></h1></th>
+    </tr>
+  </thead>
+  <% if song.image_path.present? %>
+    <tr class="notation-image blank-bg">
+      <td colspan="100">
+        <%= cl_image_tag(song.image_path, :crop => :fill, :width => 800, :class=>"song-image") %>
+      </td>
+    </tr>
+  <% end %>
 <% categories.each do |cat| %>
   <thead>
   <tr>
@@ -89,13 +95,18 @@
           <% end %>
         </tr>
       <% end %>
-      </tbody>
+  </tbody>
+<% end %>
+<% unless song.comments.empty? %>
+  <thead>
+  <tr>
+    <th colspan="100"><h5>Comments</h5></th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr>
+    <td><%= song.comments %></td>
+  </tr>
+  </tbody>
 <% end %>
 </table>
-
-<% unless song.comments.empty? %>
-  <h4>Comments:</h4>
-  <p>
-    <%= song.comments %>
-  </p>
-<% end %>

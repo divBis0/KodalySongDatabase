@@ -168,7 +168,7 @@ td.empty {
   width: 100%;
 }
 
-th > h5 {
+th > h5, th > h1 {
   margin-bottom: 0
 }
   
@@ -180,7 +180,20 @@ td > pre {
   white-space: pre-wrap;
 }
 
+thead.song-title, tr.blank-bg {
+  background-color: #ffffff;
+}
+
+tr.notation-image > td {
+  text-align: center;
+}
+
 @media print {
+  thead.song-title, tr.blank-bg {
+    background-color: #ffffff !important;
+    -webkit-print-color-adjust: exact;
+  }
+  
   thead {
     background-color: #f8f8f8 !important;
     -webkit-print-color-adjust: exact;
