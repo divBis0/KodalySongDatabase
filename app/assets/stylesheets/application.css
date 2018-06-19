@@ -198,6 +198,15 @@ input.has-tip {
   font-weight: normal;
 }
 
+div.input-group input[type='search'] {
+  margin-bottom: 0px;
+}
+
+div.input-group a {
+  margin-left: 16px;
+  margin-right: 16px;
+}
+
 @media print {
   thead.song-title, tr.blank-bg {
     background-color: #ffffff !important;
