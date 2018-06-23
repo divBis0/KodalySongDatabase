@@ -207,6 +207,10 @@ div.input-group a {
   margin-right: 16px;
 }
 
+table.show-song tbody tr th {
+  width: 25%;
+}
+
 @media print {
   thead.song-title, tr.blank-bg {
     background-color: #ffffff !important;
