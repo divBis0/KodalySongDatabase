@@ -131,27 +131,27 @@ class AdvancedSearchController < ApplicationController
     def do_query(field_ix,field_val)
       case field_ix
       when 1
-        qstr = 'songs.title LIKE ?'
+        qstr = 'songs.title ILIKE ?'
       when 2
-        qstr = 'sources.title LIKE ?'
+        qstr = 'sources.title ILIKE ?'
       when 3
-        qstr = 'sources.author LIKE ?'
+        qstr = 'sources.author ILIKE ?'
       when 4, 8
-        qstr = 'concepts.name LIKE ?'
+        qstr = 'concepts.name ILIKE ?'
       when 5, 9
-        qstr = 'concepts.prepare = TRUE AND concepts.name LIKE ?'
+        qstr = 'concepts.prepare = TRUE AND concepts.name ILIKE ?'
       when 6, 10
-        qstr = 'concepts.present = TRUE AND concepts.name LIKE ?'
+        qstr = 'concepts.present = TRUE AND concepts.name ILIKE ?'
       when 7, 11
-        qstr = 'concepts.practice = TRUE AND concepts.name LIKE ?'
+        qstr = 'concepts.practice = TRUE AND concepts.name ILIKE ?'
       when 12...(@searchfields.length-1)
         # Deduce field_name for field
         fname = @searchfields.detect{|x| x[1]==field_ix}[0]
         # Deduce field_id for field
         fid = Field.select(:id,:name).where('name = ?',fname).limit(1).first.id
-        qstr = 'field_entries.field_id = '+fid.to_s+' AND field_entries.data LIKE ?'
+        qstr = 'field_entries.field_id = '+fid.to_s+' AND field_entries.data ILIKE ?'
       when @searchfields.length-1
-        qstr = 'songs.comments LIKE ?'
+        qstr = 'songs.comments ILIKE ?'
       else
         qstr = ''
       end
