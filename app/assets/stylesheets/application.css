@@ -45,6 +45,25 @@ div.form-table-cell {
   display: table-cell;
 }
 
+div.edit-song-title {
+  width: 100%;
+  position: -webkit-sticky;
+  position: sticky;
+  top: 31px;
+  z-index: 1;
+  background-color: white;
+  padding-top: 2px;
+}
+
+div.edit-song-title input {
+  margin-bottom: 0px;
+}
+
+div.edit-song-title hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
 h2 div input[type='text'] {
   font-size: 3rem;
   height: 4rem;
@@ -87,6 +106,7 @@ div.header {
   padding-right:0.5em;
   background: #1779ba;
   display: inline;
+  z-index: 1;
 }
 
 div.footer {

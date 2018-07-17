@@ -7,6 +7,7 @@
   <% end %>
 
   <div class="form-inputs">
+    <div class="edit-song-title">
     <div class="form-table">
       <div class="form-table-row">
         <div class="form-table-cell">
@@ -16,9 +17,18 @@
           <%= f.button :submit %>
         </div>
       </div>
+      <div class="form-table-row">
+        Jump to:
+        <a href="#Notation">Notation</a> |
+        <% @categories.each do |cat| %>
+          <a class="anchor" href="#<%= cat.name.gsub(/\W/,'') %>"><%= cat.name %></a> |
+        <% end %>
+        <a class="anchor" href="#Comments">Comments</a>
+      </div>
     </div>
     <hr>
-    <h3>Notation</h3>
+    </div>
+    <h3 id="Notation">Notation</h3>
     <div class="preview">
       <% if @song.image_path.present? %>
         <%= cl_image_tag(@song.image_path, :crop => :fill, :width => 800) %>
@@ -34,7 +44,7 @@
     
     <% @categories.each do |cat| %>
       <hr>
-        <h3><%= cat.name %></h3>
+        <h3 id="<%= cat.name.gsub(/\W/,'') %>"><%= cat.name %></h3>
         <% if cat.name == "Source" %>
           <div>
             <%= hidden_field_tag(:source_sel, current_user.sources.empty? ? "new" : "existing") %>
@@ -95,11 +105,7 @@
         <% end %>
     <% end %>
     <hr>
-    <h3>Comments</h3><%= f.text_area :comments, :input_html => {:rows => 5} %>
-  </div>
-
-  <div class="form-actions">
-    <%= f.button :submit %>
+    <h3 id="Comments">Comments</h3><%= f.text_area :comments, :input_html => {:rows => 5} %>
   </div>
 <% end %>
 
@@ -231,5 +237,45 @@
       }).get().join(';');
       $(this).children("input[type='hidden']").val(str);
     });
+  });
+  
+  // Select all links with hashes
+$('a[href*="#"]')
+  // Remove links that don't actually link to anything
+  .not('[href="#"]')
+  .not('[href="#0"]')
+  .click(function(event) {
+    // On-page links
+    if (
+      location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') 
+      && 
+      location.hostname == this.hostname
+    ) {
+      // Figure out element to scroll to
+      var target = $(this.hash);
+      target = target.length ? target : $('[name=' + this.hash.slice(1) + ']');
+      // Does a scroll target exist?
+      if (target.length) {
+        // Only prevent default if animation is actually gonna happen
+        event.preventDefault();
+        $('html, body').animate({
+          scrollTop: target.offset().top-140
+        }, 1000, function() {
+          // Callback after animation
+          // remember where we are
+          var x = window.scrollX, y = window.scrollY;
+          // Must change focus!
+          var $target = $(target);
+          $target.focus();
+          if ($target.is(":focus")) { // Checking if the target was focused
+            return false;
+          } else {
+            $target.attr('tabindex','-1'); // Adding tabindex for elements not focusable
+            $target.focus(); // Set focus again
+          };
+          window.scrollTo(x, y); // Return to location
+        });
+      }
+    }
   });
 </script>
