@@ -6,6 +6,7 @@ class SongsController < ApplicationController
   # GET /songs.json
   def index
     @q = current_user.songs.search(params[:q])
+    @q.sorts = 'title' if @q.sorts.empty?
     @songs = @q.result.page(params[:page])#.to_a.uniq
     #@songs = current_user.songs.page(params[:page])
     # To do:
