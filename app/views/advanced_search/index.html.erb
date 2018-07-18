@@ -22,7 +22,7 @@
   <% if @searchstring.empty? %>
     Search Results
   <% else %>
-    Search results for: 
+    <%= @songs.length %> results for: 
     <% for i in 0...@searchstring.length %>
       <% if i%2==0 %>
         <%= @searchstring[i] %>
