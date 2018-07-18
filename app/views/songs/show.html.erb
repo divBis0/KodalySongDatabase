@@ -1,3 +1,7 @@
+<div class="hide-for-print floating-edit-button">
+<%= link_to 'Edit Song', edit_song_path(@song), :class => "button button-large" %>
+</div>
+
 <%= render("song", :song => @song, :categories => @categories) %>
 
 <div class="hide-for-print">

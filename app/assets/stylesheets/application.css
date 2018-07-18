@@ -64,6 +64,11 @@ div.edit-song-title hr {
   margin-bottom: 10px;
 }
 
+div.floating-edit-button {
+  position: fixed;
+  right: 2px;
+}
+
 h2 div input[type='text'] {
   font-size: 3rem;
   height: 4rem;
