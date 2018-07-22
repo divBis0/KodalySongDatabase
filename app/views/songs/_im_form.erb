@@ -1,0 +1,18 @@
+<div class="im_form" style="<%= 'display:none' unless vis %>">
+  <div class="preview">
+    <% unless im_path.nil? %>
+      <%= cl_image_tag(im_path, :crop => :fill, :width => 800) %>
+    <% end %>
+  </div>
+  <div>
+    <div class="upload_button_holder">
+      <%= link_to("Upload New Image #"+ix.to_s, "#", :class => "upload button") %>
+      <%= f.cl_image_upload(im_id, :tags => "unvalidated", :use_filename => true, :folder => current_user.id) %>
+    </div>
+    <div class="upload_button_holder">
+      <%= f.hidden_field "_delete_image"+ix.to_s, :value=>0 %>
+      <button type="button" class="alert button im-delete" style="<%= 'display:none' if im_path.nil? %>">Delete Image #<%= ix.to_s %></button>
+    </div>
+    <span class="status"></span>
+  </div>
+</div>
