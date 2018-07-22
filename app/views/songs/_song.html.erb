@@ -11,6 +11,27 @@
       </td>
     </tr>
   <% end %>
+  <% if song.image2_path.present? %>
+    <tr class="notation-image blank-bg">
+      <td colspan="100">
+        <%= cl_image_tag(song.image2_path, :crop => :fill, :width => 800, :class=>"song-image") %>
+      </td>
+    </tr>
+  <% end %>
+  <% if song.image3_path.present? %>
+    <tr class="notation-image blank-bg">
+      <td colspan="100">
+        <%= cl_image_tag(song.image3_path, :crop => :fill, :width => 800, :class=>"song-image") %>
+      </td>
+    </tr>
+  <% end %>
+  <% if song.image4_path.present? %>
+    <tr class="notation-image blank-bg">
+      <td colspan="100">
+        <%= cl_image_tag(song.image4_path, :crop => :fill, :width => 800, :class=>"song-image") %>
+      </td>
+    </tr>
+  <% end %>
 <% categories.each do |cat| %>
   <thead>
   <tr>

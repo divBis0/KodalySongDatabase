@@ -27,6 +27,7 @@ class SongsController < ApplicationController
     #pp @datums
     #pp @song.field_categories
     Field.all.map{ |fld| @song.field_entries.build(field_id: fld.id) }
+    @im_id_cols, @im_paths = set_images(@song)
     @song
   end
 
@@ -38,6 +39,7 @@ class SongsController < ApplicationController
     unless @song.source
       @song.source = Source.new
     end
+    @im_id_cols, @im_paths = set_images(@song)
     @song
   end
 
@@ -49,9 +51,41 @@ class SongsController < ApplicationController
     if tmp[:source_attributes].present?
       tmp[:source_attributes][:user_id] = current_user.id;
     end
+    
+    im_id_keys = [:image_id, :image2_id, :image3_id, :image4_id]
+    im_path_keys = [:image_path, :image2_path, :image3_path, :image4_path]
+    im_del_keys = [:_delete_image1, :_delete_image2, :_delete_image3, :_delete_image4]
+    im_del_values = im_del_keys.map {|k| tmp[k].to_i}
+    im_del_keys.each{|k| tmp.delete(k)}
+    k=0;
+    for i in 0...4
+      unless im_del_values[i]==1
+        if tmp[im_id_keys[i]].present?
+          if i!=k
+            tmp[im_id_keys[k]]   = tmp[im_id_keys[i]]
+            tmp[im_path_keys[k]] = tmp[im_path_keys[i]]
+          end
+          k+=1
+        end
+      end
+    end
+    for i in k...4
+      if tmp[im_id_keys[k]].present?
+        tmp[im_id_keys[i]]   = nil
+        tmp[im_path_keys[i]] = nil
+      end
+    end
+    
     @song = current_user.songs.new(tmp)
     respond_to do |format|
       if @song.save && (field_entries_attributes.values.map { |values| values[:data].blank? || @song.field_entries.build(values) }.empty? || @song.save)
+        im_id_keys.map {|id| @song[id]}.each do |id|
+          if id.present?
+            pp "Validating new image: #{id}"
+            Cloudinary::Uploader.replace_tag("validated", [id])
+          end
+        end
+      
         format.html { redirect_to @song, notice: 'current_user.songs was successfully created.' }
         format.json { render :show, status: :created, location: @song }
       else
@@ -76,15 +110,54 @@ class SongsController < ApplicationController
       tmp.delete(:source_attributes);
     end
     old_image_id = @song.image_id
+    
+    old_im_ids = [@song.image_id, @song.image2_id, @song.image3_id, @song.image4_id]
+    im_id_keys = [:image_id, :image2_id, :image3_id, :image4_id]
+    im_path_keys = [:image_path, :image2_path, :image3_path, :image4_path]
+    im_del_keys = [:_delete_image1, :_delete_image2, :_delete_image3, :_delete_image4]
+    im_del_values = im_del_keys.map {|k| tmp[k].to_i}
+    im_del_keys.each{|k| tmp.delete(k)}
+    
+    k=0;
+    for i in 0...4
+      unless im_del_values[i]==1
+        if tmp[im_id_keys[i]].present?
+          if i!=k
+            tmp[im_id_keys[k]]   = tmp[im_id_keys[i]]
+            tmp[im_path_keys[k]] = tmp[im_path_keys[i]]
+          end
+          k+=1
+        elsif @song[im_id_keys[i]].present?
+          if i!=k || tmp[im_id_keys[k]].present?
+            tmp[im_id_keys[k]]   = @song[im_id_keys[i]]
+            tmp[im_path_keys[k]] = @song[im_path_keys[i]]
+          end
+          k+=1
+        end
+      end
+    end
+    for i in k...4
+      if tmp[im_id_keys[k]].present? || @song[im_id_keys[i]].present?
+        tmp[im_id_keys[i]]   = nil
+        tmp[im_path_keys[i]] = nil
+      end
+    end
+    
     respond_to do |format|
       if @song.update(tmp)
-        if old_image_id.present? && old_image_id != @song.image_id
-          pp Cloudinary::Api.delete_resources([old_image_id])
+        new_im_ids = im_id_keys.map {|id| @song[id]}
+        old_im_ids.each do |id|
+          if id.present? && !(new_im_ids.include? id)
+            pp Cloudinary::Api.delete_resources([id])
+          end
         end
-        if @song.image_id.present? && old_image_id != @song.image_id
-          pp "Validating new image: #{@song.image_id}"
-          Cloudinary::Uploader.replace_tag("validated", [@song.image_id])
+        new_im_ids.each do |id|
+          if id.present? && !(old_im_ids.include? id)
+            pp "Validating new image: #{id}"
+            Cloudinary::Uploader.replace_tag("validated", [id])
+          end
         end
+        
         format.html { redirect_to @song, notice: 'current_user.songs was successfully updated.' }
         format.json { render :show, status: :ok, location: @song }
       else
@@ -97,8 +170,9 @@ class SongsController < ApplicationController
   # DELETE /songs/1
   # DELETE /songs/1.json
   def destroy
-    if @song.image_id.present?
-        pp Cloudinary::Api.delete_resources([@song.image_id])
+    im_ids_to_delete = [:image_id, :image2_id, :image3_id, :image4_id].map{|id| @song[id]}.select{|id| id.present?}
+    unless im_ids_to_delete.empty?
+      pp Cloudinary::Api.delete_resources(im_ids_to_delete)
     end
     @song.destroy
     respond_to do |format|
@@ -108,6 +182,16 @@ class SongsController < ApplicationController
   end
 
   private
+    def set_images(s)
+      im_id_cols = [:image_id, :image2_id, :image3_id, :image4_id]
+      im_paths = [
+        s.image_path.present?  ? s.image_path  : nil,
+        s.image2_path.present? ? s.image2_path : nil,
+        s.image3_path.present? ? s.image3_path : nil,
+        s.image4_path.present? ? s.image4_path : nil]
+      return im_id_cols, im_paths
+    end
+  
     # Use callbacks to share common setup or constraints between actions.
     def set_song
       unless @song = current_user.songs.where(id: params[:id]).first
@@ -131,21 +215,26 @@ class SongsController < ApplicationController
       #pp params.permitted?
       #params.require(:song).require(:field_entries_attributes).permit(:data)
       pp params
-      if params[:song][:image_id].present?
-        preloaded = Cloudinary::PreloadedFile.new(params[:song][:image_id])         
-        raise "Invalid upload signature" if !preloaded.valid?
-        params[:song][:image_id] = preloaded.public_id
-        params[:song][:image_path] = preloaded.identifier
+      im_ids = [:image_id, :image2_id, :image3_id, :image4_id]
+      im_paths = [:image_path, :image2_path, :image3_path, :image4_path]
+      im_ids.zip(im_paths).each do |im_id, im_path|
+        if params[:song][im_id].present?
+          preloaded = Cloudinary::PreloadedFile.new(params[:song][im_id])         
+          raise "Invalid upload signature" if !preloaded.valid?
+          params[:song][im_id] = preloaded.public_id
+          params[:song][im_path] = preloaded.identifier
+        end
       end
+      acceptable_fields = [:title, :comments,
+            :_delete_image1, :_delete_image2, :_delete_image3, :_delete_image4,
+            field_entries_attributes: [:id, :data, :field_id],
+            concepts_attributes: [:id, :name, :prepare, :practice, :present, :rhythm, :_destroy]] +
+            im_ids + im_paths
       if params[:source_sel] == "new"
-        params.require(:song).permit(:title, :comments, :image_id, :image_path,
-            field_entries_attributes: [:id, :data, :field_id],
-            source_attributes: [:id, :title, :author, :publisher, :city, :copyright_year, :website],
-            concepts_attributes: [:id, :name, :prepare, :practice, :present, :rhythm, :_destroy])
+        acceptable_fields.push(source_attributes: [:id, :title, :author, :publisher, :city, :copyright_year, :website])
       else
-        params.require(:song).permit(:title, :comments, :source_id, :image_id, :image_path,
-            field_entries_attributes: [:id, :data, :field_id],
-            concepts_attributes: [:id, :name, :prepare, :practice, :present, :rhythm, :_destroy])
+        acceptable_fields.push(:source_id)
       end
+      params.require(:song).permit(*acceptable_fields)
     end
 end

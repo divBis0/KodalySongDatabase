@@ -29,18 +29,9 @@
     <hr>
     </div>
     <h3 id="Notation">Notation</h3>
-    <div class="preview">
-      <% if @song.image_path.present? %>
-        <%= cl_image_tag(@song.image_path, :crop => :fill, :width => 800) %>
-      <% end %>
-    </div>
-    <div>
-      <div class="upload_button_holder">
-        <%= link_to("Upload New Image", "#", :class => "button") %>
-        <%= f.cl_image_upload(:image_id, :tags => "unvalidated", :use_filename => true, :folder => current_user.id) %>
-      </div>
-      <span class="status"></span>
-    </div>
+    <% @im_id_cols.each_index do |i| %>   
+      <%= render 'im_form', im_path: @im_paths[i], im_id: @im_id_cols[i], f: f, ix: i+1, vis: (i==0 || !@im_paths[i-1].nil?) %>
+    <% end %>
     
     <% @categories.each do |cat| %>
       <hr>
@@ -132,13 +123,13 @@
         maxFileSize: 1000000, // 1MB
         //dropZone: "#direct_upload",
         start: function (e) {
-          $(".status").text("Starting upload...");
+          $(this).closest(".im_form").find(".status").text("Starting upload...");
         },
         progress: function (e, data) {
-          $(".status").text("Uploading... " + Math.round((data.loaded * 100.0) / data.total) + "%");
+          $(this).closest(".im_form").find(".status").text("Uploading... " + Math.round((data.loaded * 100.0) / data.total) + "%");
         },
         fail: function (e, data) {
-          $(".status").text("Upload failed");
+          $(this).closest(".im_form").find(".status").text("Upload failed");
           console.log("FAIL");
           console.log(JSON.stringify(e));
           console.log(JSON.stringify(data));
@@ -146,13 +137,16 @@
         replaceFileInput:false
       })
       .off("cloudinarydone").on("cloudinarydone", function (e, data) {
-        $(".status").text("");
-        var preview = $(".preview").html('');
+        $(this).closest(".im_form").find(".status").text("");
+        var preview = $(this).closest(".im_form").find(".preview").html('');
         $.cloudinary.image(data.result.public_id, {
           format: data.result.format, crop: "fill", width: "800"
         }).appendTo(preview);
 
         //view_upload_details(data.result); // Uncomment to debug
+        $(this).closest(".im_form").next(".im_form").show();
+        $(this).closest(".im_form").find("button.im-delete").show()
+        $(this).closest(".im_form").find("input[type=hidden]").val(0);
       });
       /*$("input.cloudinary-fileupload[type=file]").cloudinary_fileupload({
         replaceFileInput:false
@@ -173,6 +167,15 @@
         .append("<h2>Upload metadata:</h2>")
         .append($("<table>").append(rows)));
   }
+  
+  $(document).ready(function() {
+    $("button.im-delete").click(function() {
+      $(this).prev("input[type=hidden]").val(1);
+      $(this).closest(".im_form").find(".preview").html('')
+      $(this).hide()
+      $(this).closest(".im_form").next(".im_form").find("button.im-delete:hidden").closest(".im_form").hide()
+    });
+  });
   
   function remove_concept(button_element) {
     button_element.prev("input[type=hidden]").val(1);

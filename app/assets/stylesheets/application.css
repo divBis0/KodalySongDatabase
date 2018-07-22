@@ -213,6 +213,33 @@ tr.notation-image > td {
   text-align: center;
 }
 
+tr.notation-image:nth-child(even) {
+  background-color: #ffffff;
+}
+
+div.im_form {
+  border-style: solid;
+  border-width: 1px;
+  border-color: lightgray;
+}
+
+div.im_form div.upload_button_holder, div.im_form a, div.im_form button {
+  margin: 0px;
+}
+
+div.im_form div.upload_button_holder a.upload {
+  margin-left: 4px;
+}
+
+div.im_form {
+  margin-top: 4px;
+  margin-bottom: 4px;
+}
+
+div.im_form div.upload_button_holder {
+  margin-top: 4px;
+}
+
 tfoot td {
   font-style: italic;
   font-weight: normal;
@@ -250,6 +277,10 @@ table.show-song tbody tr th {
   tr:nth-child(even) {
     background-color: #f1f1f1 !important;
     -webkit-print-color-adjust: exact;
+  }
+
+  tr.notation-image:nth-child(even) {
+    background-color: #ffffff !important;
   }
   
   .has-tip {
