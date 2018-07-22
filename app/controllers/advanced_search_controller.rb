@@ -77,7 +77,7 @@ class AdvancedSearchController < ApplicationController
   def list
     # TODO: add more parameter/query validation
     @title = params[:title].split('\n')
-    @songs = current_user.songs.where(id: params[:songs].split(',').map(&:to_i))
+    @songs = current_user.songs.where(id: params[:songs].split(',').map(&:to_i)).order(:title)
     @fields = params[:fields].map{|f| lkup(f.to_i)}
   end
   def show
