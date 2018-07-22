@@ -12,3 +12,5 @@ Build latest:
 To run:
 * docker-compose up web
 * Using a browser, navigate to localhost:8080
+
+You'll need to sign-up for a cloudinary account and setup a config/cloudinary.yml file if you want to upload images.
