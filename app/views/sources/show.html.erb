@@ -25,7 +25,8 @@
 
 <p>
   <strong>Web Site:</strong>
-  <%= @source.web_site %>
+  <% link = @source.web_site.start_with?('http') ? @source.web_site : 'http://'+@source.web_site %>
+  <a href="<%= link %>"><%= @source.web_site %></a>
 </p>
 
 <%= link_to 'Edit', edit_source_path(@source) %> |
