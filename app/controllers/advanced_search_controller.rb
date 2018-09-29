@@ -190,7 +190,7 @@ class AdvancedSearchController < ApplicationController
       FieldCategory.order(:order).each do |cat|
         Field.all.select{ |fe| fe.field_category == cat }.each do |ff|
           i=i+1
-          if ff.display_type == "rhythm"
+          if ff.display_type == "rhythm" || ff.display_type == "rhythm_set"
             @searchfields.push([ff.name,i,{'data-type' => 'rhythm'}])
           elsif ff.display_type == "tone_set"
             @searchfields.push([ff.name,i,{'data-type' => 'tone'}])
