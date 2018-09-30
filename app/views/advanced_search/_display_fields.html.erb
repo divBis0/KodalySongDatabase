@@ -77,7 +77,7 @@
 <% when 12...(@searchfields.length-1) %>
   <% datum = s.field_entries.select{|d| d.field.name == f[0]}.first %>
   <% unless datum.nil? %>
-    <% if datum.field.display_type == "rhythm" %>
+    <% if datum.field.display_type == "rhythm" || datum.field.display_type == "rhythm_set" %>
       <span class="notation"><%= datum.data %></span>
     <% else %>
       <%= datum.data %>
