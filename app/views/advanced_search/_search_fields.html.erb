@@ -5,6 +5,7 @@
     <td><%= select_tag(b, options_for_select(@searchbinaryops,@aq[b])) %></td>
   <% end %>
   <td><%= select_tag(f, options_for_select(@searchfields,@aq[f]), {:class => 'field-select'}) %></td>
+  <td><%= select_tag(t, options_for_select(@searchtypes,@aq[t])) %></td>
   <td>
   <% if @sf[f][2]['data-type'] == 'text' %>
     <%= text_field_tag(q,@aq[q]) %>

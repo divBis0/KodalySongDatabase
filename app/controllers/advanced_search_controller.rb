@@ -9,16 +9,16 @@ class AdvancedSearchController < ApplicationController
     qresults = []
     # TODO: add more parameter/query validation
     if @aq.key? :f1
-      qresults.push([0,do_query(@aq[:f1], @aq[:q1]),lkup(@aq[:f1]),@aq[:q1]])
+      qresults.push([0,do_query(@aq[:f1], @aq[:q1], @aq[:t1]),lkup(@aq[:f1]),@aq[:t1],@aq[:q1]])
     end
     if @aq.key? :f2
-      qresults.push([@aq[:b12],do_query(@aq[:f2], @aq[:q2]),lkup(@aq[:f2]),@aq[:q2]])
+      qresults.push([@aq[:b12],do_query(@aq[:f2], @aq[:q2], @aq[:t2]),lkup(@aq[:f2]),@aq[:t2],@aq[:q2]])
     end
     if @aq.key? :f3
-      qresults.push([@aq[:b23],do_query(@aq[:f3], @aq[:q3]),lkup(@aq[:f3]),@aq[:q3]])
+      qresults.push([@aq[:b23],do_query(@aq[:f3], @aq[:q3], @aq[:t3]),lkup(@aq[:f3]),@aq[:t3],@aq[:q3]])
     end
     if @aq.key? :f4
-      qresults.push([@aq[:b34],do_query(@aq[:f4], @aq[:q4]),lkup(@aq[:f4]),@aq[:q4]])
+      qresults.push([@aq[:b34],do_query(@aq[:f4], @aq[:q4], @aq[:t4]),lkup(@aq[:f4]),@aq[:t4],@aq[:q4]])
     end
     # First, invert results
     for i in 0...qresults.length
@@ -27,16 +27,13 @@ class AdvancedSearchController < ApplicationController
       else
         txt = qresults[i].pop
       end
-      if qresults[i][0] > 2
+      if qresults[i][3] > 2
         if !(defined? all_songs)
           all_songs = current_user.songs.all
         end
-        qresults[i][0] -= 2
         qresults[i][1] = all_songs - qresults[i][1]
-        qresults[i][2] = qresults[i][2][0] + " does NOT contain '" + txt + "'"
-      else
-        qresults[i][2] = qresults[i][2][0] + " contains '" + txt + "'"
       end
+      qresults[i][2] = qresults[i][2][0] + " " + @searchtypes[qresults[i][3]-1][0] + " '" + txt + "'"
     end
     # Second, collapse ORs
     q2 = []
@@ -98,6 +95,7 @@ class AdvancedSearchController < ApplicationController
       @sf = {}
       if valid_query(params[:f1].to_i, params[:q1])
         @aq[:f1] = params[:f1].to_i
+        @aq[:t1] = params[:t1].to_i
         @aq[:q1] = params[:q1]
         @sf[:f1] = lkup(@aq[:f1])
       else
@@ -106,6 +104,7 @@ class AdvancedSearchController < ApplicationController
       if valid_query(params[:f2].to_i, params[:q2])
         @aq[:b12]= params[:b12].to_i
         @aq[:f2] = params[:f2].to_i
+        @aq[:t2] = params[:t2].to_i
         @aq[:q2] = params[:q2]
         @sf[:f2] = lkup(@aq[:f2])
       else
@@ -114,6 +113,7 @@ class AdvancedSearchController < ApplicationController
       if valid_query(params[:f3].to_i, params[:q3])
         @aq[:b23]= params[:b23].to_i
         @aq[:f3] = params[:f3].to_i
+        @aq[:t3] = params[:t3].to_i
         @aq[:q3] = params[:q3]
         @sf[:f3] = lkup(@aq[:f3])
       else
@@ -122,13 +122,14 @@ class AdvancedSearchController < ApplicationController
       if valid_query(params[:f4].to_i, params[:q4])
         @aq[:b34]= params[:b34].to_i
         @aq[:f4] = params[:f4].to_i
+        @aq[:t4] = params[:t4].to_i
         @aq[:q4] = params[:q4]
         @sf[:f4] = lkup(@aq[:f4])
       else
         @sf[:f4] = @searchfields[0]
       end
     end
-    def do_query(field_ix,field_val)
+    def do_query(field_ix,field_val,qtype)
       case field_ix
       when 1
         qstr = 'songs.title ILIKE ?'
@@ -144,19 +145,31 @@ class AdvancedSearchController < ApplicationController
         qstr = 'concepts.present = TRUE AND concepts.name ILIKE ?'
       when 7, 11
         qstr = 'concepts.practice = TRUE AND concepts.name ILIKE ?'
-      when 12...(@searchfields.length-1)
-        # Deduce field_name for field
-        fname = @searchfields.detect{|x| x[1]==field_ix}[0]
-        # Deduce field_id for field
-        fid = Field.select(:id,:name).where('name = ?',fname).limit(1).first.id
-        qstr = 'field_entries.field_id = '+fid.to_s+' AND field_entries.data ILIKE ?'
       when @searchfields.length-1
         qstr = 'songs.comments ILIKE ?'
       else
         qstr = ''
       end
       
-      return do_eager_load(current_user.songs,field_ix).where(qstr,'%'+field_val+'%')
+      qexact = qtype % 2 == 0
+      if !qstr.empty?
+        return do_eager_load(current_user.songs,field_ix)
+            .where(qstr, qexact ? field_val : ('%'+field_val+'%'))
+      elsif field_ix < @searchfields.length
+        # Deduce field_name for field
+        fname = @searchfields.detect{|x| x[1]==field_ix}[0]
+        # Deduce field_id for field
+        fid = Field.select(:id,:name).where('name = ?',fname).limit(1).first.id
+        if !qexact
+          qstr = 'field_entries.field_id = '+fid.to_s+' AND field_entries.data ILIKE ?'
+          return do_eager_load(current_user.songs,field_ix).where(qstr,'%'+field_val+'%')
+        else
+          qstr = 'field_entries.field_id = '+fid.to_s+' AND field_entries.data ~* ?'
+          return do_eager_load(current_user.songs,field_ix).where(qstr,'(?:^|;)'+field_val+'(?:$|;)')
+        end
+      else
+        return do_eager_load(current_user.songs,1)
+      end
     end
     def do_eager_load(q_in,field_ix)
       case field_ix
@@ -200,7 +213,8 @@ class AdvancedSearchController < ApplicationController
         end
       end
       @searchfields.push(['Comments',i+1,{'data-type' => 'text'}])
-      @searchbinaryops = [['And',1],['Or',2],['And Not',3],['Or Not',4]]
+      @searchbinaryops = [['And',1],['Or',2]]
+      @searchtypes = [['Contains',1,],['Is Exactly',2],['Does Not Contain',3],['Is Not',4]]
       @default_index_list = @searchfields.each_index.select{|i|
           ['Title','Source Title','Page #','Grade Levels'].include? @searchfields[i][0]}.sort
     end
