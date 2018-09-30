@@ -103,7 +103,7 @@
   
   $( ".field-select" ).change(function() {
     var new_dt = $(this).find(":selected").attr('data-type');
-    var edit = $(this).parent().next().children();
+    var edit = $(this).parent().next().next().children();
     var old_dt = "text";
     if (edit.hasClass("rhythm notation")) {
       old_dt = "rhythm";
