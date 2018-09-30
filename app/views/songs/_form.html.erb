@@ -58,7 +58,7 @@
               <li class="accordion-item <%= 'is-active' unless current_user.sources.empty? =%>" data-accordion-item>
                 <a href="#" class="accordion-title existing-source" id="existingSourceA">Existing Source</a>
                 <div class="accordion-content" data-tab-content >
-                  <%= f.collection_select :source_id, current_user.sources.order(:title),:id,:title, include_blank: true %>
+                  <%= f.collection_select :source_id, current_user.sources.order(:title),:id,:title_with_author, include_blank: true %>
                 </div>
               </li>
             </ul>

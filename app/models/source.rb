@@ -9,4 +9,13 @@ class Source < ApplicationRecord
   validates :title, presence: true
   
   paginates_per 25
+  
+  def title_with_author
+    if author.nil? || author.empty?
+      title
+    else
+      last_name = author.match /(\S+)\s*$/
+      "#{title} (#{last_name})"
+    end
+  end
 end
