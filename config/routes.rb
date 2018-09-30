@@ -14,7 +14,12 @@ Rails.application.routes.draw do
 #     new_user_registration GET    /users/sign_up(.:format)             devise_invitable/registrations#new
 #    post    'users(.:format)'         => 'devise_invitable/registrations#create'
   end
-  resources :songs
+  constraints(id: /[0-9]+/) do
+    resources :songs
+  end
+  constraints(alpha: /[A-Z]+/) do
+    get 'songs/:alpha', to: 'songs#index', as: 'songs_by_letter'
+  end
   get 'advanced_search' => 'advanced_search#index'
   get 'advanced_search/list' => 'advanced_search#list'
   get 'advanced_search/show' => 'advanced_search#show'

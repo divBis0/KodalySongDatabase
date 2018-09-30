@@ -1,4 +1,8 @@
+<% if params[:alpha].nil? %>
 <h1>Songs</h1>
+<% else %>
+<h1><%= 'Songs Starting With '+params[:alpha] =%></h1>
+<% end %>
 
 <%= search_form_for @q do |f| %>
 <div class="input-group">
@@ -10,6 +14,12 @@
   <%= link_to 'Advanced Search', advanced_search_path%>
 </div>
 <% end %>
+<div>
+Jump to songs starting with: 
+<% ("A".."Z").each do |letter| %>
+  <%= link_to letter, songs_by_letter_path(letter) %>
+<% end %>
+</div>
 <hr>
 <table>
   <thead>

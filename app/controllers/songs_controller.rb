@@ -5,7 +5,11 @@ class SongsController < ApplicationController
   # GET /songs
   # GET /songs.json
   def index
-    @q = current_user.songs.search(params[:q])
+    if params[:alpha].nil?
+      @q = current_user.songs.search(params[:q])
+    else
+      @q = current_user.songs.where('title ILIKE ?',params[:alpha]+'%').search(params[:q])
+    end
     @q.sorts = 'title' if @q.sorts.empty?
     @songs = @q.result.page(params[:page])#.to_a.uniq
     #@songs = current_user.songs.page(params[:page])
