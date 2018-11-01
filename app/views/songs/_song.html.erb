@@ -49,7 +49,7 @@
                   <% if name == :title %>
                     <%= link_to song.source[name], song.source %>
                   <% elsif name == :web_site %>
-                    <%= render("outside_url", :link => song.source[name]) %>
+                    <%= render("songs/outside_url", :link => song.source[name]) %>
                   <% else %>
                     <%= song.source[name] %>
                   <% end %>
@@ -115,7 +115,7 @@
           <% elsif datum.field.display_type == "text" %>
             <td colspan="99"><pre><%= datum.data %></pre></td>
           <% elsif datum.field.display_type == "url" %>
-            <td colspan="99"><%= render("outside_url", :link => datum.data) %></td>
+            <td colspan="99"><%= render("songs/outside_url", :link => datum.data) %></td>
           <% else %>
             <% if datum.field.display_type == "rhythm" %>
               <td colspan="99" class="notation">
