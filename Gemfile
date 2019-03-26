@@ -5,8 +5,11 @@ git_source(:github) do |repo_name|
   "https://github.com/#{repo_name}.git"
 end
 
+# Spec ruby version
+ruby '~> 2.5.0'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 5.0.1'
+gem 'rails', '~> 5.0.0'
 # Use postgresql as the database for Active Record
 gem 'pg', '~> 0.18'
 # Following gem helps reset postgres db
@@ -40,7 +43,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'figaro'
 
 # Use devise for authentication
-gem 'devise', '~> 4.2.0'
+gem 'devise', '~> 4.6.0'
 # Use devise_invitable for adding new users
 gem 'devise_invitable', '~> 1.7.0'
 
