@@ -10,6 +10,8 @@ class Source < ApplicationRecord
   
   paginates_per 25
   
+  default_scope ->{ order('title') }
+  
   def title_with_author
     if author.nil? || author.empty?
       title
