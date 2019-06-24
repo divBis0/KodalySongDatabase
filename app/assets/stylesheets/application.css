@@ -263,6 +263,10 @@ table.show-song tbody tr th {
   width: 25%;
 }
 
+.pagination a {
+  display: inline;
+}
+
 @media print {
   thead.song-title, tr.blank-bg {
     background-color: #ffffff !important;
