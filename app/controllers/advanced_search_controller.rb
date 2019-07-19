@@ -216,6 +216,6 @@ class AdvancedSearchController < ApplicationController
       @searchbinaryops = [['And',1],['Or',2]]
       @searchtypes = [['Contains',1,],['Is Exactly',2],['Does Not Contain',3],['Is Not',4]]
       @default_index_list = @searchfields.each_index.select{|i|
-          ['Title','Source Title','Page #','Grade Levels'].include? @searchfields[i][0]}.sort
+          ['Title','Source Title','Source Author','Page #','Grade Levels'].include? @searchfields[i][0]}.sort
     end
 end
