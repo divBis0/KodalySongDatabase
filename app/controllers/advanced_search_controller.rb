@@ -79,7 +79,7 @@ class AdvancedSearchController < ApplicationController
   end
   def show
     # TODO: add more parameter/query validation
-    @songs = current_user.songs.where(id: params[:songs].split(',').map(&:to_i))
+    @songs = current_user.songs.where(id: params[:songs].split(',').map(&:to_i)).order(:title)
     @categories = FieldCategory.order(:order)
   end
   
