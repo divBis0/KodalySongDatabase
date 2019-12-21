@@ -52,7 +52,7 @@ gem 'ransack'
 
 # Css framework
 gem 'foundation-rails', '~> 6.3.0'
-gem 'simple_form', '~> 3.4.0'
+gem 'simple_form', '~> 5.0.0'
 
 # Use kaminari for pagination
 gem 'kaminari'
