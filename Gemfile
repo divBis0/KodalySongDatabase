@@ -43,7 +43,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'figaro'
 
 # Use devise for authentication
-gem 'devise', '~> 4.6.0'
+gem 'devise', '~> 4.7.1'
 # Use devise_invitable for adding new users
 gem 'devise_invitable', '~> 1.7.0'
 
