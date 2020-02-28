@@ -133,7 +133,7 @@ GEM
     orm_adapter (0.5.0)
     pg (0.21.0)
     pgreset (0.1.1)
-    puma (3.12.2)
+    puma (3.12.3)
     rack (2.0.8)
     rack-test (0.6.3)
       rack (>= 1.0)
