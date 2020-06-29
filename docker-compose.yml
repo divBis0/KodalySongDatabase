@@ -3,26 +3,30 @@ web:
   command: 'bash -c ''bundle exec puma -C config/puma.rb'''
   working_dir: /app
   environment:
-    PORT: 8080
-    #DATABASE_URL: 'postgres://postgres:@herokuPostgresql:5432/user_development'
+    - SPROCKETS_CACHE=/cache
+    - PORT=8080
+    #- DATABASE_URL='postgres://postgres:@herokuPostgresql:5432/user_development'
   ports:
     - '8080:8080'
   links:
     - herokuPostgresql
   volumes:
     - '.:/app'
+    - cache:/cache
 shell:
   build: .
   command: bash
   working_dir: /app
   environment:
-    PORT: 8080
-    #DATABASE_URL: 'postgres://postgres:@herokuPostgresql:5432/user_development'
+    - SPROCKETS_CACHE=/cache
+    - PORT=8080
+    #- DATABASE_URL='postgres://postgres:@herokuPostgresql:5432/user_development'
   ports:
     - '8080:8080'
   links:
     - herokuPostgresql
   volumes:
     - '.:/app'
+    - cache:/cache
 herokuPostgresql:
   image: postgres
