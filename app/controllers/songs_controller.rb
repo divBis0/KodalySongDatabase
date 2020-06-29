@@ -166,6 +166,8 @@ class SongsController < ApplicationController
         format.json { render :show, status: :ok, location: @song }
       else
         set_categories()
+        @im_id_cols, @im_paths = set_images(@song)
+        @song
         format.html { render :edit }
         format.json { render json: @song.errors, status: :unprocessable_entity }
       end
