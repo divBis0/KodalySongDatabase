@@ -165,6 +165,7 @@ class SongsController < ApplicationController
         format.html { redirect_to @song, notice: 'current_user.songs was successfully updated.' }
         format.json { render :show, status: :ok, location: @song }
       else
+        set_categories()
         format.html { render :edit }
         format.json { render json: @song.errors, status: :unprocessable_entity }
       end
