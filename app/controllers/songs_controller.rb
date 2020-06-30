@@ -93,7 +93,7 @@ class SongsController < ApplicationController
         format.html { redirect_to @song, notice: 'current_user.songs was successfully created.' }
         format.json { render :show, status: :created, location: @song }
       else
-        pp @song.errors.full_messages
+        handle_song_val_error()
         format.html { render :new }
         format.json { render json: @song.errors, status: :unprocessable_entity }
       end
@@ -165,9 +165,7 @@ class SongsController < ApplicationController
         format.html { redirect_to @song, notice: 'current_user.songs was successfully updated.' }
         format.json { render :show, status: :ok, location: @song }
       else
-        set_categories()
-        @im_id_cols, @im_paths = set_images(@song)
-        @song
+        handle_song_val_error()
         format.html { render :edit }
         format.json { render json: @song.errors, status: :unprocessable_entity }
       end
@@ -209,6 +207,14 @@ class SongsController < ApplicationController
     
     def set_categories
       @categories = FieldCategory.order(:order)
+    end
+    
+    def handle_song_val_error
+      pp "Song validation failed:"
+      pp @song.errors.full_messages
+      set_categories()
+      @im_id_cols, @im_paths = set_images(@song)
+      @song
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
