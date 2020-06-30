@@ -90,7 +90,7 @@ class SongsController < ApplicationController
           end
         end
       
-        format.html { redirect_to @song, notice: 'current_user.songs was successfully created.' }
+        format.html { redirect_to @song, notice: "'#{@song.title}' was successfully created." }
         format.json { render :show, status: :created, location: @song }
       else
         handle_song_val_error()
@@ -162,7 +162,7 @@ class SongsController < ApplicationController
           end
         end
         
-        format.html { redirect_to @song, notice: 'current_user.songs was successfully updated.' }
+        format.html { redirect_to @song, notice: "'#{@song.title}' was successfully updated." }
         format.json { render :show, status: :ok, location: @song }
       else
         handle_song_val_error()
@@ -181,7 +181,7 @@ class SongsController < ApplicationController
     end
     @song.destroy
     respond_to do |format|
-      format.html { redirect_to songs_url, notice: 'current_user.songs was successfully destroyed.' }
+      format.html { redirect_to songs_url, notice: "'#{@song.title}' was successfully destroyed." }
       format.json { head :no_content }
     end
   end
