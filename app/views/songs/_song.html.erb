@@ -58,7 +58,7 @@
             <% end %>
           <% end %>
         <% end %>
-      <% elsif (cat.name == "Pedagogy") && !(song.concepts.empty?) %>
+      <% elsif (cat.name == "Pedagogy") %>
         <tr><td colspan="99">
           <table id="song_concepts_table" class="show">
             <tbody>
@@ -85,46 +85,56 @@
           </table>
         </td></tr>
       <% end %>
-      <% song.field_entries.select{|d| d.field.field_category == cat}.sort_by(&:field_id).each do |datum| %>
-        <tr>
-          <th><%= datum.field.name %></th>
-          <% if datum.field.display_type == "string_set" or datum.field.display_type == "rhythm_set" %>
-            <% subdatums = datum.data.split(/;\s*/) %>
-            <% if cat.name == "Form" %>
-              <% subdatums.each do |d| %>
-                <% if datum.field.display_type == "rhythm_set" %>
-                  <td class="notation form-set">
-                <% else %>
-                  <td class="form-set">
-                <% end %>
-                <%= d %></td>
-              <% end %>
-              <td class="empty" colspan="<%= 99-subdatums.length %>"></td>
-            <% else %>
-              <td colspan="99"><table class="set"><tr>
+      <% cat.fields.sort_by(&:id).each do |fld| %>
+        <% datum = song.field_entries.find_by field: fld %>
+        <% if datum.blank? %>
+          <% if fld.force_display? %>
+            <tr>
+              <th><%= fld.name %></th>
+              <td></td>
+            </tr>
+          <% end %>
+        <% else %>
+          <tr>
+            <th><%= fld.name %></th>
+            <% if fld.display_type == "string_set" or fld.display_type == "rhythm_set" %>
+              <% subdatums = datum.data.split(/;\s*/) %>
+              <% if cat.name == "Form" %>
                 <% subdatums.each do |d| %>
-                  <% if datum.field.display_type == "rhythm_set" %>
-                    <td class="notation">
+                  <% if fld.display_type == "rhythm_set" %>
+                    <td class="notation form-set">
                   <% else %>
-                    <td>
+                    <td class="form-set">
                   <% end %>
                   <%= d %></td>
                 <% end %>
-              </tr></table></td>
-            <% end %>
-          <% elsif datum.field.display_type == "text" %>
-            <td colspan="99"><pre><%= datum.data %></pre></td>
-          <% elsif datum.field.display_type == "url" %>
-            <td colspan="99"><%= render("songs/outside_url", :link => datum.data) %></td>
-          <% else %>
-            <% if datum.field.display_type == "rhythm" %>
-              <td colspan="99" class="notation">
+                <td class="empty" colspan="<%= 99-subdatums.length %>"></td>
+              <% else %>
+                <td colspan="99"><table class="set"><tr>
+                  <% subdatums.each do |d| %>
+                    <% if fld.display_type == "rhythm_set" %>
+                      <td class="notation">
+                    <% else %>
+                      <td>
+                    <% end %>
+                    <%= d %></td>
+                  <% end %>
+                </tr></table></td>
+              <% end %>
+            <% elsif fld.display_type == "text" %>
+              <td colspan="99"><pre><%= datum.data %></pre></td>
+            <% elsif fld.display_type == "url" %>
+              <td colspan="99"><%= render("songs/outside_url", :link => datum.data) %></td>
             <% else %>
-              <td colspan="99">
+              <% if fld.display_type == "rhythm" %>
+                <td colspan="99" class="notation">
+              <% else %>
+                <td colspan="99">
+              <% end %>
+              <%= datum.data %></td>
             <% end %>
-            <%= datum.data %></td>
-          <% end %>
-        </tr>
+          </tr>
+        <% end %>
       <% end %>
   </tbody>
 <% end %>
