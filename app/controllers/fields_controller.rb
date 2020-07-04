@@ -47,7 +47,7 @@ class FieldsController < ApplicationController
   def update
     respond_to do |format|
       if @field.update(field_params)
-        format.html { redirect_to @field, notice: 'Field was successfully updated.' }
+        format.html { redirect_to fields_url, notice: "#{@field.name} was successfully updated." }
         format.json { render :show, status: :ok, location: @field }
       else
         format.html { render :edit }
