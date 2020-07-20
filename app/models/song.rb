@@ -23,4 +23,8 @@ class Song < ApplicationRecord
   validates :title, presence: true
   
   paginates_per 25
+  
+  def next
+    user.songs.where("title > ?",title).order(:title).first
+  end
 end

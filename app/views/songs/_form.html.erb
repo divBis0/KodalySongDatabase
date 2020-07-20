@@ -13,9 +13,16 @@
         <div class="form-table-cell">
           <h2><%= f.input :title, label: false %></h2>
         </div>
-        <div class="form-actions form-table-cell" style="width: 120px">
-          <%= f.button :submit %>
-        </div>
+        <% if @song.next.present? %>
+          <div class="form-actions form-table-cell" style="width: 210px">
+            <%= f.button :submit, "Save" %>
+            <%= f.button :submit, "Save and Next" %>
+          </div>
+        <% else %>
+          <div class="form-actions form-table-cell" style="width: 120px">
+            <%= f.button :submit, "Save" %>
+          </div>
+        <% end %>
       </div>
       <div class="form-table-row">
         Jump to:

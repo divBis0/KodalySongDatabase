@@ -162,7 +162,12 @@ class SongsController < ApplicationController
           end
         end
         
-        format.html { redirect_to @song, notice: "'#{@song.title}' was successfully updated." }
+        next_song = @song.next
+        if params[:commit] == "Save and Next" && next_song.present?
+            format.html { redirect_to edit_song_path(next_song), notice: "'#{@song.title}' was successfully updated." }
+        else
+            format.html { redirect_to @song, notice: "'#{@song.title}' was successfully updated." }
+        end
         format.json { render :show, status: :ok, location: @song }
       else
         handle_song_val_error()
